@@ -47,8 +47,16 @@ thinkPHP 6.0 模板
  │  ├─middleware        中间件目录
  │  ├─model             模型目录
  │  ├─service           服务目录 
- │  ├─validate          验证器目录 
- ├─public           WEB目录（对外访问目录）
+ │  ├─validate          验证器目录
+ ├─config       配置
+ │  ├─dev           dev环境配置目录
+ │  │  └─ ...           dev配置文件
+ │  ├─prod          prod环境配置目录
+ │  │  └─ ...           prod配置文件
+ │  ├─test          test环境配置目录
+ │  │  └─ ...           test配置文件
+ │  └─ ...          其他或框架配置文件
+ ├─public       WEB目录（对外访问目录）
  │  ├─static             静态文件目录
  │  ├─index.php          入口文件
  │  ├─router.php         快速测试文件
