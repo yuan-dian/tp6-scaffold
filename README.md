@@ -67,3 +67,10 @@ thinkPHP 6.0 模板
  备注
  ===============
  + [完全开发手册](https://www.kancloud.cn/manual/thinkphp6_0/content)
+ 
+ ## 交流
+ QQ交流群：1004068839
+  
+ ## 捐献
+ ![](http://blog.zhuangjun.top/images/wx_reward.png) 
+ ![](http://blog.zhuangjun.top/images/ali_reward.png)
