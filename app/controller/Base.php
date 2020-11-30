@@ -25,8 +25,8 @@ abstract class Base extends BaseController
      */
     public function response($data = '', int $code = 0)
     {
-        $response = show($data, $code);
-        throw new HttpResponseException($response);
+        $response = format_response($data, $code);
+        $response->send();
     }
 
 }

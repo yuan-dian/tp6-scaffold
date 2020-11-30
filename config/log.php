@@ -9,7 +9,7 @@ return [
     // 日志记录级别
     'level'        => [],
     // 日志类型记录的通道 ['error'=>'email',...]
-    'type_channel' => [],
+    'type_channel' => ['error'=>['ding', 'file'],],
     // 关闭全局日志写入
     'close'        => false,
     // 全局日志处理 支持闭包
@@ -36,8 +36,19 @@ return [
             'close'          => false,
             // 日志输出格式化
             'format'         => '[%s][%s] %s',
+            // 时间输出格式化
+            'time_format'   =>    'Y-m-d H:i:s',
             // 是否实时写入
             'realtime_write' => false,
+        ],
+        // 其它日志通道配置
+        'ding' => [
+            // 日志记录方式
+            'type'           => '\\log\\ding\\DingLog',
+            'webhook' => 'https://oapi.dingtalk.com/robot/send?access_token='.env('ding.access_token', ''),
+            'at' => explode(',',env('ding.at', '')), //接收人手机号
+            'secret' => env('ding.secret', ''),
+            'system_name' => env('ding.system_name', ''),
         ],
         // 其它日志通道配置
     ],

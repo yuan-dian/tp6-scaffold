@@ -1,6 +1,7 @@
 <?php
+
 // +----------------------------------------------------------------------
-// | 
+// |
 // +----------------------------------------------------------------------
 // | @copyright (c) http://www.auntec.cn All rights reserved.
 // +----------------------------------------------------------------------
@@ -9,20 +10,21 @@
 // | Date: 2019/9/16
 // +----------------------------------------------------------------------
 
-namespace app\constant;
+namespace app\response;
 
 use ReflectionClassConstant;
 
 /**
  * 获取常量注释
- * Class AnnotationReader
- * @package app\constant
+ * Class AnnotationReader.
  */
 class AnnotationReader
 {
     /**
-     * 获取知道类的注释
+     * 获取类的注释.
+     *
      * @param array $classConstants 类名
+     *
      * @return array
      */
     public function getAnnotations($classConstants)
@@ -41,8 +43,10 @@ class AnnotationReader
     }
 
     /**
-     * 格式注释内容
+     * 格式注释内容.
+     *
      * @param $doc
+     *
      * @return array
      */
     protected function parse($doc)
@@ -60,11 +64,11 @@ class AnnotationReader
                         $result[$key] = $values[$i];
                     }
                 }
+
                 return $result;
             }
         }
 
         return [];
     }
-
 }

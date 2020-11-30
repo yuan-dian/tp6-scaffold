@@ -1,21 +1,22 @@
 <?php
+
 // +----------------------------------------------------------------------
-// | 
+// |
 // +----------------------------------------------------------------------
 // | @copyright (c) http://www.auntec.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 原点 <467490186@qq.com>
 // +----------------------------------------------------------------------
-// | Date: 2019/9/16
+// | Date: 2020/5/3
 // +----------------------------------------------------------------------
 
-namespace app\constant;
+namespace app\response;
+
 /**
- * 状态码
- * Class ErrorCode
- * @package app\constant
+ * 响应状态码
+ * Class ResponseCode.
  */
-class ReturnCode extends AbstractConstants
+class ResponseCode extends AbstractConstants
 {
     /*
     1000-1999	请求错误（参数错误等）
@@ -26,63 +27,80 @@ class ReturnCode extends AbstractConstants
     */
 
     /**
-     * 成功
-     * @Message("成功")
+     * @Message("Success")
      * @HttpCode("200")
      */
     const SUCCESS = 0;
 
+    // 请求错误
     /**
-     * 参数错误
-     * @Message("参数错误")
+     * @Message("Params error")
      * @HttpCode("400")
      */
-    const PARAM_ERROR= 1001;
+    const PARAM_ERROR = 1001;
 
     /**
-     * 非法请求
-     * @Message("非法请求")
+     * @Message("Illegal request")
      * @HttpCode("401")
      */
     const ILLEGAL_REQUEST = 1002;
 
     /**
-     * 请求不存在
-     * @Message("请求不存在")
+     * @Message("Undefined request")
      * @HttpCode("404")
      */
     const NO_REQUEST = 1003;
 
     /**
-     * 签名错误
-     * @Message("签名错误")
+     * @Message("Sign error")
      * @HttpCode("403")
      */
     const SIGN_ERROR = 1004;
 
-
-    //系统错误
-
+    // 系统错误
+    // DB错误
     /**
-     * 数据库访问失败
-     * @Message("数据库访问失败")
+     * @Message("Db error")
      * @HttpCode("500")
      */
     const MYSQL_ERROR = 3001;
 
     /**
-     * 数据库事务回滚
-     * @Message("数据库事务回滚")
+     * @Message("Db rollback")
      * @HttpCode("500")
      */
-    const MYSQL_ROLLBACK= 3002;
+    const MYSQL_ROLLBACK = 3002;
 
     /**
-     * 数据保存失败
-     * @Message("数据保存失败")
+     * @Message("Db save error")
      * @HttpCode("500")
      */
-    const MYSQL_SAVE_ERROR= 3003;
+    const MYSQL_SAVE_ERROR = 3003;
 
 
+    // 自定义错误
+    /**
+     * @Message("Share password error")
+     * @HttpCode("200")
+     */
+    const SHARE_PASSWORD_ERROR = 4001;
+
+    /**
+     * @Message("Share time error")
+     * @HttpCode("200")
+     */
+    const SHARE_TIME_ERROR = 4002;
+
+    /**
+     * @Message("Share cancel")
+     * @HttpCode("200")
+     */
+    const SHARE_CANCEL = 4003;
+
+    /**
+     * 非法访问
+     * @Message("Illegal access")
+     * @HttpCode("403")
+     */
+    const ILLEGAL_ACCESS_ERROR = 4004;
 }
