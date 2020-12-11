@@ -20,6 +20,7 @@ class DingLog implements LogHandlerInterface
      * @var array
      */
     protected $config = [
+        'enabled' => true,
         'webhook' => '',
         'at' => [],
         'secret' => '',
@@ -42,34 +43,36 @@ class DingLog implements LogHandlerInterface
      */
     public function save(array $log = []): bool
     {
-        $host = '';
-        $uri = '';
-        $message = '';
-        $file = '';
-        $line = '';
-        $code = '';
-        $query = '';
-        $body = '';
-        $app_id = '';
-        $Authorization = '';
-        $ip = '';
-        foreach ($log as $type => $val) {
-            foreach ($val as $msg) {
-                $host .= $msg['host'] . ',';
-                $uri .= $msg['uri'] . ',';
-                $message .= $msg['message'] . ',';
-                $file .= $msg['file'] . ',';
-                $line .= $msg['line'] . ',';
-                $code .= $msg['code'] . ',';
-                $query .= json_encode($msg['query']);
-                $body .= json_encode($msg['body']);
-                $app_id .= json_encode($msg['app_id']);
-                $Authorization .= json_encode($msg['Authorization']);
-                $ip .= $msg['ip'];
+        if ($this->config['enabled']) {
+            $host = '';
+            $uri = '';
+            $message = '';
+            $file = '';
+            $line = '';
+            $code = '';
+            $query = '';
+            $body = '';
+            $app_id = '';
+            $Authorization = '';
+            $ip = '';
+            foreach ($log as $type => $val) {
+                foreach ($val as $msg) {
+                    $host .= $msg['host'] . ',';
+                    $uri .= $msg['uri'] . ',';
+                    $message .= $msg['message'] . ',';
+                    $file .= $msg['file'] . ',';
+                    $line .= $msg['line'] . ',';
+                    $code .= $msg['code'] . ',';
+                    $query .= json_encode($msg['query']);
+                    $body .= json_encode($msg['body']);
+                    $app_id .= json_encode($msg['app_id']);
+                    $Authorization .= json_encode($msg['Authorization']);
+                    $ip .= $msg['ip'];
+                }
             }
-        }
 
-        $this->send($host, $uri, $message, $file, $line, $code, $query, $body, $app_id, $Authorization, $ip);
+            $this->send($host, $uri, $message, $file, $line, $code, $query, $body, $app_id, $Authorization, $ip);
+        }
 
         return true;
     }

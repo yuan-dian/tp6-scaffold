@@ -45,6 +45,7 @@ return [
         'ding' => [
             // 日志记录方式
             'type'           => '\\log\\ding\\DingLog',
+            'enabled' => env('ding.enabled', true),
             'webhook' => 'https://oapi.dingtalk.com/robot/send?access_token='.env('ding.access_token', ''),
             'at' => explode(',',env('ding.at', '')), //接收人手机号
             'secret' => env('ding.secret', ''),
