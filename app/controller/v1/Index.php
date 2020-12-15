@@ -11,13 +11,13 @@
 
 namespace app\controller\v1;
 
-use app\constant\ReturnCode;
 use app\controller\Base;
+use app\response\ResponseCode;
 
 class Index extends Base
 {
     public function index()
     {
-        $this->response('Welcome to v1 *****',ReturnCode::SUCCESS);
+        $this->response('Welcome to v1 *****',ResponseCode::SUCCESS);
     }
 }
