@@ -34,7 +34,7 @@ class Http extends Handle
     public function render($request, Throwable $e): Response
     {
         if (true == env('app_debug', 'false')) {
-            return parent::render($e);
+            return parent::render($request, $e);
         }
         $message = $this->getMessage($e);
         // 参数验证错误
@@ -66,16 +66,25 @@ class Http extends Handle
         if (!$this->isIgnoreReport($exception)) {
             // 收集异常数据
             $data = [
-                'host' => Request::host(),
-                'uri' => Request::url(),
-                'file' => $exception->getFile(),
-                'line' => $exception->getLine(),
-                'message' => $this->getMessage($exception),
+                // uri
+                'uri' => Request::host()  . Request::url(),
+                // 错误码
                 'code' => $this->getCode($exception),
-                'query' => Request::get(),
-                'body' => Request::post(),
-                'app_id' => Request::header('appId', ''),
-                'Authorization' => Request::header('Authorization', ''),
+                // 错误信息
+                'message' => $this->getMessage($exception),
+                // 错误文件
+                'file' => $exception->getFile(),
+                // 错误行号
+                'line' => $exception->getLine(),
+                // 错误堆栈
+                'trace' => substr($exception->getTraceAsString(), 0, 300),
+                // get 参数
+                'GET' => Request::get(),
+                // post参数
+                'POST' => Request::post(),
+                // header 头信息
+                'header' => Request::header(),
+                // 访问ip
                 'ip' => Request::ip(),
             ];
         }
