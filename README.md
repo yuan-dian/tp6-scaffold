@@ -17,16 +17,19 @@ thinkPHP 6.0 脚手架
      ```
     [其他服务器配置](https://www.kancloud.cn/manual/thinkphp6_0/1037488)
 
-环境配置
-==============
- + 复制 项目根目录 ```.env-example```文件，重命名为 ```.env```
- + 根据.env文件注释，配置对应的内容（主要是数据库连接）
-
 使用
 ===============
- + 项目根目录执行 composer install（安装） 或者 composer update （升级）
- + ```项目跟目录/runtime``` 目录权限为777
+ + 项目根目录执行 
+    + 【安装】composer install（ 部署服务器建议：composer install --no-dev）
+    + 【升级】composer update 
  
+ + 权限: ```项目跟目录/runtime``` 目录权限为777
+ 
+ 环境配置
+ ==============
+  + 复制 项目根目录 ```.env-example```文件，重命名为 ```.env```
+  + 根据.env文件注释，配置对应的内容（主要是数据库连接）
+  
 说明
 ===============
  + 开启miss路由（强制路由，使用前先配置路由）
