@@ -36,7 +36,7 @@ class UnifiedOutput
         $data = $response->getData();
 
         // 自动格式化数据
-        if (!isset($data['code'])) {
+        if (!isset($data['code']) && !isset($data['message'])) {
             $response = format_response($data);
         }
         return $response;
