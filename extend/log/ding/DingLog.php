@@ -57,7 +57,8 @@ class DingLog implements LogHandlerInterface
             foreach ($message as $key => $value) {
                 $msg .= Lang::get($key) . '：' . (is_string($value) ? $value : json_encode($value, JSON_UNESCAPED_UNICODE) ). "\r\n";
             }
-            $this->ding->at($this->config['at'])->text($msg);
+
+            $this->ding->at($this->config['at'])->text(trim($msg));
         }
         return true;
     }

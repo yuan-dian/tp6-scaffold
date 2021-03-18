@@ -12,12 +12,11 @@
 namespace app\controller\v1;
 
 use app\controller\Base;
-use app\response\ResponseCode;
 
 class Index extends Base
 {
     public function index()
     {
-        $this->response('Welcome to v1 *****',ResponseCode::SUCCESS);
+        return 'Welcome to v1 *****';
     }
 }

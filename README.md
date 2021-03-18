@@ -1,4 +1,4 @@
-thinkPHP 6.0 模板
+thinkPHP 6.0 脚手架
 
 环境配置
 ===============
@@ -31,6 +31,17 @@ thinkPHP 6.0 模板
 ===============
  + 开启miss路由（强制路由，使用前先配置路由）
  + 权限验证建议使用路由中间件
+ + 错误码信息需统一在 `app\response` 目录处理
+ + 响应输出系统会自动统一格式处理，示例：
+ ```
+    // 控制器代码
+    public function index()
+     {
+         return 'Welcome to v1 *****';
+     }
+     // 响应内容【备注：若响应内容包含code属性，不会自动格式化】
+     {"code":0,"message":"Success","data":"Welcome to v1 *****"}
+ ```
  
  
 目录说明

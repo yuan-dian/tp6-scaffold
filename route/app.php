@@ -10,18 +10,18 @@
 // +----------------------------------------------------------------------
 use think\facade\Route;
 
+/*** 默认路由 */
+Route::rule('/', function () {
+    return 'Welcome to *****!';
+});
+
+/*** miss路由 */
 Route::miss(function() {
     return '404 Not Found!';
 });
-
-Route::get('think', function () {
-    return 'hello,ThinkPHP6!';
-});
-
-Route::get('hello/:name', 'index/hello');
-Route::get('hello/:name', 'index/hello');
+/*** 版本控制器路由 */
 Route::group(':version', function () {
     Route::get('index', ':version.Index/index');//获取用户信息
 })
-    ->middleware('app\middleware\CheckSign');
+    ->middleware('app\middleware\CheckSign'); // 路中间件
 ;
