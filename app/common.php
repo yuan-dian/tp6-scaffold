@@ -2,24 +2,25 @@
 // 应用公共文件
 use app\response\ResponseCode;
 use think\facade\Request;
+use think\Response;
 
 if (!function_exists('format_response')) {
     /**
      * 统一输出.
-     *
-     * @param array|bool $data 输出数据
+     * @param mixed $data 输出数据
      * @param int $code 状态码
      * @param string $message 提示信息
      * @param int $httpCode http状态码
-     *
      * @return array|\think\Response|\think\response\Json|\think\response\Jsonp|\think\response\Xml
+     * @date 2021/3/19 9:30
+     * @author 原点 467490186@qq.com
      */
-    function format_response($data, $code = 0, $message = null, $httpCode = null)
+    function format_response($data = [], int $code = 0, string $message = '', int $httpCode = 200): Response
     {
-        if (is_null($message)) {
+        if (empty($message)) {
             $message = ResponseCode::getMessage($code) ?: '';
         }
-        if (is_null($httpCode)) {
+        if (empty($httpCode)) {
             $httpCode = ResponseCode::getHttpCode($code) ? (int)ResponseCode::getHttpCode($code) : 200;
         }
         $response = [
