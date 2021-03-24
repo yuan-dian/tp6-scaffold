@@ -62,9 +62,8 @@ class Http extends Handle
         }
         // 其他自定义错误处理
 
-
         // 服务器错误，正式环境统一输出错误信息，防止服务器信息敏感信息被输出
-        if ($this->httpCode == 500 && env('env_config', 'prod') == 'prod') {
+        if ($this->httpCode == 500 && env('env_config', 'prod') == 'prod' && !($e instanceof BusinessException)) {
             $message = '服务异常请重试';
         }
 
@@ -80,7 +79,6 @@ class Http extends Handle
      */
     public function report(Throwable $exception): void
     {
-        $data = [];
         if (!$this->isIgnoreReport($exception)) {
             // 收集异常数据
             $data = [
@@ -105,10 +103,10 @@ class Http extends Handle
                 // 访问ip
                 'ip' => Request::ip(),
             ];
-        }
-        try {
-            $this->app->log->record($data, 'error');
-        } catch (Exception $e) {
+            try {
+                $this->app->log->record($data, 'error');
+            } catch (Exception $e) {
+            }
         }
     }
 
