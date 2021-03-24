@@ -19,7 +19,6 @@ use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
 use think\exception\ValidateException;
-use think\facade\Env;
 use think\facade\Request;
 use think\Response;
 use Throwable;
@@ -36,6 +35,7 @@ class Http extends Handle
      */
     public $httpCode = 500;
 
+    // 忽略输出的异常类
     protected $ignoreReport = [
         HttpException::class,
         HttpResponseException::class,
