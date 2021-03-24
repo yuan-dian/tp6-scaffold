@@ -13,8 +13,13 @@ namespace app\exception;
 
 use Exception;
 
+use think\db\exception\DataNotFoundException;
+use think\db\exception\ModelNotFoundException;
 use think\exception\Handle;
+use think\exception\HttpException;
+use think\exception\HttpResponseException;
 use think\exception\ValidateException;
+use think\facade\Env;
 use think\facade\Request;
 use think\Response;
 use Throwable;
@@ -31,6 +36,15 @@ class Http extends Handle
      */
     public $httpCode = 500;
 
+    protected $ignoreReport = [
+        HttpException::class,
+        HttpResponseException::class,
+        ModelNotFoundException::class,
+        DataNotFoundException::class,
+        ValidateException::class,
+        BusinessException::class,
+    ];
+
     public function render($request, Throwable $e): Response
     {
         if (true == env('app_debug', 'false')) {
@@ -41,6 +55,10 @@ class Http extends Handle
         if ($e instanceof ValidateException) {
             $message = $e->getError();
             $this->httpCode = 422;
+        }
+        // 判断是否为自定义错误类型
+        if ($e instanceof BusinessException) {
+            $this->httpCode = (int)$e->httpCode;
         }
         // 其他自定义错误处理
 

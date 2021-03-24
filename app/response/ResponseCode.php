@@ -15,6 +15,8 @@ namespace app\response;
 /**
  * 响应状态码
  * Class ResponseCode.
+ * @method static string getMessage(int $code) 获取状态码对应的说明
+ * @method static int getHttpCode(int $code) 获取状态码对应的HTTP 状态码
  */
 class ResponseCode extends AbstractConstants
 {
