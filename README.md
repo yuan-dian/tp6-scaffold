@@ -1,5 +1,15 @@
 thinkPHP 6.0 脚手架
 
+功能列表
+===============
+ + 钉钉日志通道
+ + 统一异常处理
+ + 统一状态码管理
+ + 自动统一响应输出
+ + 自动全局跨域处理
+ + 异常钉钉消息通知（基于钉钉日志通道）
+ + 环境配置文件自动加载
+
 环境配置
 ===============
  + php7.1+
@@ -16,7 +26,8 @@ thinkPHP 6.0 脚手架
           }
      ```
     [其他服务器配置](https://www.kancloud.cn/manual/thinkphp6_0/1037488)
-
+  + 复制 项目根目录 ```.env-example```文件，重命名为 ```.env```
+  + 根据.env文件注释，配置对应的内容（主要是数据库连接）
 使用
 ===============
  + 项目根目录执行 
@@ -24,17 +35,21 @@ thinkPHP 6.0 脚手架
     + 【升级】composer update 
  
  + 权限: ```项目跟目录/runtime``` 目录权限为777
- 
- 环境配置
- ==============
-  + 复制 项目根目录 ```.env-example```文件，重命名为 ```.env```
-  + 根据.env文件注释，配置对应的内容（主要是数据库连接）
   
 说明
 ===============
  + 开启miss路由（强制路由，使用前先配置路由）
- + 权限验证建议使用路由中间件
  + 错误码信息需统一在 `app\response` 目录处理
+ + 环境配置
+    - 主配置文件  `项目根目录\.env` 应用配置
+    - 环境配置 切换  `项目根目录\.env`  `ENV_CONFIG = xx`
+    - 环境配置文件  `项目根目录\config\dev`  `项目根目录\config\test`  `项目根目录\config\prod` 
+ + 系统自动增加了全局跨域设置
+    - 需要取消跨域设置进入 `app/middleware.php ` 文件，删除对应配置即可
+     ```
+         // 全局跨域处理
+         \app\middleware\CrossDomain::class
+     ```
  + 响应输出系统会自动统一格式处理，示例：
  ```
     // 控制器代码
@@ -46,38 +61,11 @@ thinkPHP 6.0 脚手架
      {"code":0,"message":"Success","data":"Welcome to v1 *****"}
  ```
  
- 
-目录说明
-===============
-```
- ├─app          应用目录
- │  ├─command           自定义命令行（cli模式）
- │  ├─constant          常量定义
- │  ├─controller        控制器目录
- │  │  ├─v1                 控制器版本目录
- │  │  └─ ...               更多版本目录
- │  ├─event             事件目录
- │  ├─exception         异常处理目录
- │  ├─middleware        中间件目录
- │  ├─model             模型目录
- │  ├─service           服务目录 
- │  ├─validate          验证器目录
- ├─config       配置
- │  ├─dev           dev环境配置目录
- │  │  └─ ...           dev配置文件
- │  ├─prod          prod环境配置目录
- │  │  └─ ...           prod配置文件
- │  ├─test          test环境配置目录
- │  │  └─ ...           test配置文件
- │  └─ ...          其他或框架配置文件
- ├─public       WEB目录（对外访问目录）
- │  ├─static             静态文件目录
- │  ├─index.php          入口文件
- │  ├─router.php         快速测试文件
- │  └─.htaccess          用于apache的重写
- ├─extend           扩展类库目录
- ```
- 
+ 工具类
+ ===============
+ + 伪异步 `utils\async\AsyncHook`;
+    - 应用结束时触发代码执行，基于`register_shutdown_function`实现
+
  备注
  ===============
  + [完全开发手册](https://www.kancloud.cn/manual/thinkphp6_0/content)
