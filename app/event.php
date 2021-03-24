@@ -7,7 +7,7 @@ return [
     'listen'    => [
         'AppInit'  => ['app\event\LoadConfig'],
         'HttpRun'  => [],
-        'HttpEnd'  => [],
+        'HttpEnd'  => ['utils\async\AsyncHook'],
         'LogLevel' => [],
         'LogWrite' => [],
     ],
