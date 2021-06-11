@@ -25,14 +25,20 @@ class UnifiedOutput
      * 中间件执行方法
      * @param Request $request 请求信息
      * @param \Closure $next 闭包
-     * @return mixed
+     * @return Response
      * @date 2020/4/24 13:31
      * @author 原点 467490186@qq.com
      */
-    public function handle(Request $request, \Closure $next)
+    public function handle(Request $request, \Closure $next): Response
     {
         //前置中间件业务
+        /**
+         * @var Response $response
+         */
         $response = $next($request);
+        if ($response->getCode() == 500) {
+            return $response;
+        }
         $data = $response->getData();
 
         // 自动格式化数据

@@ -47,9 +47,6 @@ class Http extends Handle
 
     public function render($request, Throwable $e): Response
     {
-        if (true == env('app_debug', 'false')) {
-            return parent::render($request, $e);
-        }
         $message = $this->getMessage($e);
         // 参数验证错误
         if ($e instanceof ValidateException) {
@@ -65,6 +62,10 @@ class Http extends Handle
         // 服务器错误，正式环境统一输出错误信息，防止服务器信息敏感信息被输出
         if ($this->httpCode == 500 && env('env_config', 'prod') == 'prod' && !($e instanceof BusinessException)) {
             $message = '服务异常请重试';
+        }
+
+        if (true == env('app_debug', 'false') && $this->httpCode == 500) {
+            return parent::render($request, $e);
         }
 
         return format_response([], $this->getCode($e), $message, $this->httpCode);
@@ -83,7 +84,7 @@ class Http extends Handle
             // 收集异常数据
             $data = [
                 // uri
-                'uri' => Request::host()  . Request::url(),
+                'uri' => Request::url(true),
                 // 错误码
                 'code' => $this->getCode($exception),
                 // 错误信息
@@ -93,7 +94,7 @@ class Http extends Handle
                 // 错误行号
                 'line' => $exception->getLine(),
                 // 错误堆栈
-                'trace' => substr($exception->getTraceAsString(), 0, 300),
+                'trace' => explode('#4', $exception->getTraceAsString())[0],
                 // get 参数
                 'GET' => Request::get(),
                 // post参数
