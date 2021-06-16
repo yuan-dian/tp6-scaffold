@@ -16,12 +16,12 @@ Route::rule('/', function () {
 });
 
 /*** miss路由 */
-Route::miss(function() {
-    return '404 Not Found!';
-});
+Route::miss(function () {
+        throw new \app\exception\BusinessException(\app\constants\ErrorCode::NO_REQUEST);
+    }
+);
 /*** 版本控制器路由 */
 Route::group(':version', function () {
-    Route::get('index', ':version.Index/index');//获取用户信息
+    Route::get('index', ':version.Index/index');
 })
-    ->middleware('app\middleware\CheckSign'); // 路中间件
-;
+    ->middleware('app\middleware\CheckSign');;

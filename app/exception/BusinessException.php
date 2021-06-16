@@ -9,7 +9,7 @@
 
 namespace app\exception;
 
-use app\response\ResponseCode;
+use app\constants\ErrorCode;
 
 /**
  * 业务异常
@@ -29,10 +29,10 @@ class BusinessException extends \RuntimeException
     public function __construct(int $code = 0, string $message = '', int $httpCode = 0)
     {
         if (empty($message)) {
-            $message = ResponseCode::getMessage($code);
+            $message = ErrorCode::getMessage($code);
         }
         if (empty($httpCode)) {
-            $httpCode = ResponseCode::getHttpCode($code) ?: 500;
+            $httpCode = ErrorCode::getHttpCode($code) ?: 500;
         }
         $this->httpCode = $httpCode;
         $this->message = $message;

@@ -8,15 +8,15 @@
 // | Date: 2020/5/3
 // +----------------------------------------------------------------------
 
-namespace app\response;
+namespace app\constants;
 
 /**
  * 响应状态码
- * Class ResponseCode.
+ * Class ErrorCode.
  * @method static string getMessage(int $code) 获取状态码对应的说明
  * @method static int getHttpCode(int $code) 获取状态码对应的HTTP 状态码
  */
-class ResponseCode extends AbstractConstants
+class ErrorCode extends AbstractConstants
 {
     /*
     1000-1999	请求错误（参数错误等）

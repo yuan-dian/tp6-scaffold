@@ -8,7 +8,7 @@
 // | Date: 2019/9/16
 // +----------------------------------------------------------------------
 
-namespace app\response;
+namespace app\constants;
 
 use ReflectionClassConstant;
 

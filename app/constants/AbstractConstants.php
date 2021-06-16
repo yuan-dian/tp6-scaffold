@@ -8,7 +8,7 @@
 // | Date: 2020/5/3
 // +----------------------------------------------------------------------
 
-namespace app\response;
+namespace app\constants;
 
 use think\Exception;
 use think\facade\Cache;
