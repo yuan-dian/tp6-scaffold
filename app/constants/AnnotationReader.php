@@ -25,14 +25,14 @@ class AnnotationReader
      *
      * @return array
      */
-    public function getAnnotations($classConstants)
+    public function getAnnotations(array $classConstants): array
     {
         $result = [];
         /** @var ReflectionClassConstant $classConstant */
         foreach ($classConstants as $classConstant) {
             $code = $classConstant->getValue();
             $docComment = $classConstant->getDocComment();
-            if ($docComment) {
+            if ($docComment && (is_int($code) || is_string($code))) {
                 $result[$code] = $this->parse($docComment);
             }
         }
@@ -47,26 +47,24 @@ class AnnotationReader
      *
      * @return array
      */
-    protected function parse($doc)
+    protected function parse(string $doc): array
     {
+        $message = [];
         $pattern = '/\\@(\\w+)\\(\\"(.+)\\"\\)/U';
         if (preg_match_all($pattern, $doc, $result)) {
             if (isset($result[1], $result[2])) {
                 $keys = $result[1];
                 $values = $result[2];
 
-                $result = [];
                 foreach ($keys as $i => $key) {
                     if (isset($values[$i])) {
                         $key = mb_strtolower($key, 'UTF-8');
-                        $result[$key] = $values[$i];
+                        $message[$key] = $values[$i];
                     }
                 }
 
-                return $result;
             }
         }
-
-        return [];
+        return $message;
     }
 }

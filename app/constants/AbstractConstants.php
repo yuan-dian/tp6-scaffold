@@ -19,6 +19,10 @@ use think\facade\Cache;
  */
 abstract class AbstractConstants
 {
+    /**
+     * @throws \ReflectionException
+     * @throws Exception
+     */
     public static function __callStatic($name, $arguments)
     {
         if (!self::starts_with($name, 'get')) {
@@ -45,8 +49,7 @@ abstract class AbstractConstants
             }
         }
 
-        $lang_key = isset($message[$code][$name]) ? $message[$code][$name] : 'Undefined error';
-
+        $lang_key = $message[$code][$name] ?? 'Undefined error';
         return lang($lang_key);
     }
 
@@ -56,7 +59,7 @@ abstract class AbstractConstants
      * @return array
      * @throws \ReflectionException
      */
-    public static function getResponseCodes()
+    public static function getResponseCodes(): array
     {
         $class = get_called_class();
         $reader = new AnnotationReader();
@@ -68,15 +71,15 @@ abstract class AbstractConstants
 
     /**
      * 验证字符串是否以指定字符开始.
-     * @param $haystack
-     * @param $needle
+     * @param string $haystack
+     * @param string $needle
      * @return bool
      * @date 2020/11/30 11:07
      * @author 原点 467490186@qq.com
      */
-    private static function starts_with($haystack, $needle)
+    private static function starts_with(string $haystack, string $needle): bool
     {
-        if ('' !== $needle && substr($haystack, 0, strlen($needle)) === (string)$needle) {
+        if ('' !== $needle && substr($haystack, 0, strlen($needle)) === $needle) {
             return true;
         }
 
