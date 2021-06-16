@@ -33,9 +33,6 @@ if (!function_exists('format_response')) {
 
         $Accept = Request::header('accept') ?: 'application/json';
         switch ($Accept) {
-            case 'application/json':
-                $response = json($response, $httpCode);
-                break;
             case 'application/xml':
                 $response = xml($response, $httpCode);
                 break;

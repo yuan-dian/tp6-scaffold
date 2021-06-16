@@ -51,15 +51,17 @@ thinkPHP 6.0 脚手架
          // 全局跨域处理
          \app\middleware\CrossDomain::class
      ```
- + 响应输出系统会自动统一格式处理，示例：
+ + 响应输出系统会自动统一格式处理(app\middleware\ResultMiddleware::class)，示例：
  ```
     // 控制器代码
     public function index()
      {
          return 'Welcome to v1 *****';
      }
-     // 响应内容【备注：若响应内容包含code属性，不会自动格式化】
+     // 响应内容
      {"code":0,"message":"Success","data":"Welcome to v1 *****"}
+     
+     备注：响应数据类型为app\response\Result会自动获取对应类属性（无特殊情况，直接return数据即可）
  ```
  
  工具类

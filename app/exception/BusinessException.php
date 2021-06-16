@@ -34,7 +34,7 @@ class BusinessException extends \RuntimeException
             $message = ResponseCode::getMessage($code);
         }
         if (empty($httpCode)) {
-            $httpCode = ResponseCode::getHttpCode($code) ? (int)ResponseCode::getHttpCode($code) : 500;
+            $httpCode = ResponseCode::getHttpCode($code) ?: 500;
         }
         $this->httpCode = $httpCode;
         $this->message = $message;

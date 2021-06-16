@@ -28,19 +28,18 @@ class CrossDomain
      * @return Response
      * @author 原点 467490186@qq.com
      */
-    public function handle(Request $request, \Closure $next)
+    public function handle(Request $request, \Closure $next): Response
     {
         $header = [
-            'Access-Control-Allow-Origin' => $request->header('origin','*'),
+            'Access-Control-Allow-Origin' => $request->header('origin', '*'),
             'Access-Control-Max-Age' => 1800,
             'Access-Control-Allow-Methods' => 'GET, POST, PATCH, PUT, DELETE, OPTIONS',
-            'Access-Control-Allow-Headers' => $request->header('Access-Control-Request-Headers','Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-CSRF-TOKEN, X-Requested-With'),
+            'Access-Control-Allow-Headers' => $request->header('Access-Control-Request-Headers', 'Authorization, Content-Type, If-Match, If-Modified-Since, If-None-Match, If-Unmodified-Since, X-CSRF-TOKEN, X-Requested-With'),
         ];
         // OPTIONS 请求直接输出
         if (strtoupper($request->method()) == "OPTIONS") {
-            return Response::create('','json','204')->header($header);
+            return Response::create('', 'json', '204')->header($header);
         }
-        $response = $next($request)->header($header);
-        return $response;
+        return $next($request)->header($header);
     }
 }

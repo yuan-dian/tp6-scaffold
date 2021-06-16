@@ -1,0 +1,110 @@
+<?php
+// +----------------------------------------------------------------------
+// | 
+// +----------------------------------------------------------------------
+// | Author: 原点 <467490186@qq.com>
+// +----------------------------------------------------------------------
+// | Date: 2021/6/16
+// +----------------------------------------------------------------------
+
+namespace app\response;
+
+class Result
+{
+    private $code = 0;
+
+    private $message = 'success';
+
+    private $data;
+
+    private $httpCode = 200;
+
+
+    /**
+     * @return int
+     * @date 2021/6/16 14:01
+     * @author 原点 467490186@qq.com
+     */
+    public function getCode(): int
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param int $code
+     * @return $this
+     * @date 2021/6/16 14:01
+     * @author 原点 467490186@qq.com
+     */
+    public function setCode(int $code): Result
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    /**
+     * @return string
+     * @date 2021/6/16 14:01
+     * @author 原点 467490186@qq.com
+     */
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    /**
+     * @param string $message
+     * @return $this
+     * @date 2021/6/16 14:01
+     * @author 原点 467490186@qq.com
+     */
+    public function setMessage(string $message): Result
+    {
+        $this->message = $message;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     * @date 2021/6/16 14:01
+     * @author 原点 467490186@qq.com
+     */
+    public function getData()
+    {
+        return $this->data;
+    }
+
+    /**
+     * @param $data
+     * @return $this
+     * @date 2021/6/16 14:01
+     * @author 原点 467490186@qq.com
+     */
+    public function setData($data): Result
+    {
+        $this->data = $data;
+        return $this;
+    }
+
+    /**
+     * @return int
+     * @date 2021/6/16 14:01
+     * @author 原点 467490186@qq.com
+     */
+    public function getHttpCode(): int
+    {
+        return $this->httpCode;
+    }
+
+    /**
+     * @param int $httpCode
+     * @return $this
+     * @date 2021/6/16 14:01
+     * @author 原点 467490186@qq.com
+     */
+    public function setHttpCode(int $httpCode): Result
+    {
+        $this->httpCode = $httpCode;
+        return $this;
+    }
+}

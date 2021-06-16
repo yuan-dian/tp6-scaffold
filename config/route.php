@@ -42,9 +42,4 @@ return [
     'default_jsonp_handler' => 'jsonpReturn',
     // 默认JSONP处理方法
     'var_jsonp_handler'     => 'callback',
-    // 默认中间件
-    'middleware'    =>    [
-        // 统一响应输出
-        app\middleware\UnifiedOutput::class,
-    ],
 ];

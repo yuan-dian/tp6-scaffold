@@ -17,13 +17,14 @@
         {
             "name": "yunwuxin",
             "email": "448901948@qq.com"
-        }        
+        }
     ],
     "require": {
         "php": ">=7.1.0",
         "topthink/framework": "^6.0.0",
         "topthink/think-orm": "^2.0",
-        "bingher/ding-bot": "^1.4"
+        "bingher/ding-bot": "^1.4",
+        "ext-json": "*"
     },
     "require-dev": {
         "topthink/think-trace":"^1.0"

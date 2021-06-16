@@ -11,6 +11,8 @@
 
 namespace app\middleware;
 
+use app\response\Result;
+use think\facade\Env;
 use think\Request;
 use think\Response;
 
@@ -19,7 +21,7 @@ use think\Response;
  * Class UnifiedOutput
  * @package app\middleware
  */
-class UnifiedOutput
+class ResultMiddleware
 {
     /**
      * 中间件执行方法
@@ -31,21 +33,22 @@ class UnifiedOutput
      */
     public function handle(Request $request, \Closure $next): Response
     {
-        //前置中间件业务
         /**
          * @var Response $response
          */
         $response = $next($request);
-        if ($response->getCode() == 500) {
+
+        // debug 模式 且http状态码为500时直接输出
+        if (true == Env::get('app_debug', false) && $response->getCode() == 500) {
             return $response;
         }
         $data = $response->getData();
 
-        // 自动格式化数据
-        if (!isset($data['code']) && !isset($data['message'])) {
-            $response = format_response($data);
+        if ($data instanceof Result) {
+            return format_response($data->getData(), $data->getCode(), $data->getMessage(), $data->getHttpCode());
         }
-        return $response;
+
+        return format_response($data);
     }
 
     /**

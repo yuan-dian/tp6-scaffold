@@ -8,5 +8,7 @@ return [
     // Session初始化
     // \think\middleware\SessionInit::class
     // 全局跨域处理
-    \app\middleware\CrossDomain::class
+    \app\middleware\CrossDomain::class,
+    // 统一结果输出
+    \app\middleware\ResultMiddleware::class,
 ];
