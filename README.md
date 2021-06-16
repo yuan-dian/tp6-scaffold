@@ -75,7 +75,7 @@ thinkPHP 6.0 脚手架
  
  ## 交流
  QQ交流群：1004068839
-  
- ## 捐献
- ![](http://blog.zhuangjun.top/images/wx_reward.png) 
- ![](http://blog.zhuangjun.top/images/ali_reward.png)
+
+## 捐献
+![](./public/images/wechat.png)
+![](./public/images/alipay.png)
