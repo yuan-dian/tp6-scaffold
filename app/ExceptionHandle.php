@@ -78,13 +78,6 @@ class ExceptionHandle extends Handle
     }
 
     /**
-     * Render an exception into an HTTP response.
-     *
-     * @access public
-     * @param \think\Request   $request
-     * @param Throwable $e
-     */
-    /**
      * @param \think\Request $request
      * @param Throwable $e
      * @return Result|Response

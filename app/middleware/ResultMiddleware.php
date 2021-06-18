@@ -42,10 +42,9 @@ class ResultMiddleware
         }
         $data = $response->getData();
 
-        if ($data instanceof Result) {
-            return format_response($data->getData(), $data->getCode(), $data->getMessage(), $data->getHttpCode());
+        if (!$data instanceof Result) {
+            $data =  (new Result())->setData($data);
         }
-
         return format_response($data);
     }
 

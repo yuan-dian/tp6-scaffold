@@ -107,4 +107,26 @@ class Result
         $this->httpCode = $httpCode;
         return $this;
     }
+
+    /**
+     * 对象转数组
+     * @return array
+     * @date 2021/6/18 13:05
+     * @author 原点 467490186@qq.com
+     */
+    public function __toArray(): array
+    {
+        return get_object_vars($this);
+    }
+
+    /**
+     * 对象转字符串
+     * @return string
+     * @date 2021/6/18 13:05
+     * @author 原点 467490186@qq.com
+     */
+    public function __toString(): string
+    {
+        return json_encode($this->__toArray());
+    }
 }

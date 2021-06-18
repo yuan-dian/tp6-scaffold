@@ -58,7 +58,7 @@ thinkPHP 6.0 脚手架
      {
          return 'Welcome to v1 *****';
      }
-     // 响应内容
+     // 响应内容(自动转换为app\response\Result对象)
      {"code":0,"message":"Success","data":"Welcome to v1 *****"}
      
      备注：响应数据类型为app\response\Result会自动获取对应类属性（无特殊情况，直接return数据即可）
