@@ -31,12 +31,19 @@ class AnnotationReader
         /** @var ReflectionClassConstant $classConstant */
         foreach ($classConstants as $classConstant) {
             $code = $classConstant->getValue();
+            if (PHP_VERSION >= 8.0 && $ConstantAttribute = $classConstant->getAttributes('MyAttribute')) {
+                foreach ($ConstantAttribute as $attribute) {
+                    list($name, $value) = ($attribute->newInstance())->getDate();
+                    $key = mb_strtolower($name, 'UTF-8');
+                    $result[$code][$key] = $value;
+                }
+                continue;
+            }
             $docComment = $classConstant->getDocComment();
             if ($docComment && (is_int($code) || is_string($code))) {
                 $result[$code] = $this->parse($docComment);
             }
         }
-
         return $result;
     }
 
