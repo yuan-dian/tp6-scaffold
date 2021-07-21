@@ -31,13 +31,14 @@ class ResultMiddleware
      */
     public function handle(Request $request, \Closure $next): Response
     {
+        $request->unifiedOutput = true;
         /**
          * @var Response $response
          */
         $response = $next($request);
 
         // debug 模式 且http状态码为500时直接输出
-        if (true == Env::get('app_debug', false) && $response->getCode() == 500) {
+        if ((true == Env::get('app_debug', false) && $response->getCode() == 500) || false === $request->unifiedOutput) {
             return $response;
         }
         $data = $response->getData();

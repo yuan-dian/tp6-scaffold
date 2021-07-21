@@ -40,3 +40,12 @@ if (!function_exists('format_response')) {
         return $response;
     }
 }
+
+/**
+ * 关闭自动统一输出
+ * @date 2021/7/21 18:32
+ * @author 原点 467490186@qq.com
+ */
+function close_unified_output(){
+    request()->unifiedOutput = false;
+}

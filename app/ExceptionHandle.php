@@ -103,6 +103,7 @@ class ExceptionHandle extends Handle
         }
 
         if (true == Env::get('app_debug', false) && $this->httpCode == 500) {
+            close_unified_output();
             return parent::render($request, $e);
         }
         return response((new Result())->setCode($this->getCode($e))->setMessage($message)->setHttpCode($this->httpCode));

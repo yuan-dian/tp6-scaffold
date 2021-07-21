@@ -52,9 +52,7 @@ return [
             // 监听SQL
             'trigger_sql'       => env('app_debug', true),
             // 开启字段缓存
-            'fields_cache'      => false,
-            // 字段缓存路径
-            'schema_cache_path' => app()->getRuntimePath() . 'schema' . DIRECTORY_SEPARATOR,
+            'fields_cache'      => true,
         ],
 
         // 更多的数据库配置信息
