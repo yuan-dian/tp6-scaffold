@@ -12,6 +12,7 @@ namespace app\constants;
 
 use think\Exception;
 use think\facade\Cache;
+use think\helper\Str;
 
 /**
  * 常量定义抽象类
@@ -25,7 +26,7 @@ abstract class AbstractConstants
      */
     public static function __callStatic($name, $arguments)
     {
-        if (!self::starts_with($name, 'get')) {
+        if (false === Str::startsWith($name, 'get')) {
             throw new Exception('方法名错误');
         }
 
@@ -67,22 +68,5 @@ abstract class AbstractConstants
         $classConstants = $ref->getReflectionConstants();
 
         return $reader->getAnnotations($classConstants);
-    }
-
-    /**
-     * 验证字符串是否以指定字符开始.
-     * @param string $haystack
-     * @param string $needle
-     * @return bool
-     * @date 2020/11/30 11:07
-     * @author 原点 467490186@qq.com
-     */
-    private static function starts_with(string $haystack, string $needle): bool
-    {
-        if ('' !== $needle && substr($haystack, 0, strlen($needle)) === $needle) {
-            return true;
-        }
-
-        return false;
     }
 }
