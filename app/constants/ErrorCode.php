@@ -32,6 +32,13 @@ class ErrorCode extends AbstractConstants
      */
     const SUCCESS = 0;
 
+    /**
+     * 请求失败
+     * @Message("请求失败")
+     * @HttpCode("403")
+     */
+    const FAIL = 5000;
+
     // 请求错误
     /**
      * @Message("Params error")

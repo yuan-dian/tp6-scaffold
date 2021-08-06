@@ -1,10 +1,13 @@
 <?php
 namespace app;
 
+use app\constants\ErrorCode;
 use app\exception\BusinessException;
+use app\exception\ServiceException;
 use app\response\Result;
 use think\db\exception\DataNotFoundException;
 use think\db\exception\ModelNotFoundException;
+use think\db\exception\PDOException;
 use think\exception\Handle;
 use think\exception\HttpException;
 use think\exception\HttpResponseException;
@@ -22,7 +25,7 @@ class ExceptionHandle extends Handle
     /**
      * @var int http 状态码
      */
-    public $httpCode = 500;
+    protected $httpCode = 500;
     /**
      * 不需要记录信息（日志）的异常类列表
      * @var array
@@ -33,7 +36,7 @@ class ExceptionHandle extends Handle
         ModelNotFoundException::class,
         DataNotFoundException::class,
         ValidateException::class,
-        BusinessException::class,
+        ServiceException::class,
     ];
 
     /**
@@ -87,14 +90,21 @@ class ExceptionHandle extends Handle
     public function render($request, Throwable $e) :Response
     {
         $message = $this->getMessage($e);
+        $code = ErrorCode::FAIL;
         // 参数验证错误
         if ($e instanceof ValidateException) {
             $message = $e->getError();
-            $this->httpCode = 422;
+            $code = ErrorCode::PARAM_ERROR;
+            $this->httpCode = 400;
         }
         // 判断是否为自定义错误类型
         if ($e instanceof BusinessException) {
+            $code = $this->getCode($e);
             $this->httpCode = (int)$e->httpCode;
+        }
+        // PDO异常
+        if ($e instanceof PDOException) {
+            $code = ErrorCode::MYSQL_ERROR;
         }
 
         // 服务器错误，正式环境统一输出错误信息，防止服务器信息敏感信息被输出
@@ -106,6 +116,6 @@ class ExceptionHandle extends Handle
             close_unified_output();
             return parent::render($request, $e);
         }
-        return response((new Result())->setCode($this->getCode($e))->setMessage($message)->setHttpCode($this->httpCode));
+        return response((new Result())->setCode($code)->setMessage($message)->setHttpCode($this->httpCode));
     }
 }
