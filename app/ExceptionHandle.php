@@ -98,7 +98,7 @@ class ExceptionHandle extends Handle
             $this->httpCode = 400;
         }
         // 判断是否为自定义错误类型
-        if ($e instanceof BusinessException) {
+        if ($e instanceof ServiceException) {
             $code = $this->getCode($e);
             $this->httpCode = (int)$e->httpCode;
         }
@@ -108,7 +108,7 @@ class ExceptionHandle extends Handle
         }
 
         // 服务器错误，正式环境统一输出错误信息，防止服务器信息敏感信息被输出
-        if ($this->httpCode == 500 && env('env_config', 'prod') == 'prod' && !($e instanceof BusinessException)) {
+        if ($this->httpCode == 500 && env('env_config', 'prod') == 'prod' && !($e instanceof ServiceException)) {
             $message = '服务异常请重试';
         }
 
