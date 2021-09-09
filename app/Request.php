@@ -41,7 +41,9 @@ class Request extends \think\Request
                     break;
                 }
             }
-            $this->realIP = $tempIP;
+            if ($tempIP){
+                $this->realIP = $tempIP;
+            }
         }
         if (!$this->isValidIP($this->realIP)) {
             $this->realIP = '0.0.0.0';
