@@ -11,12 +11,13 @@ namespace app\middleware;
 
 use app\response\Result;
 use think\facade\Env;
+use think\facade\Log;
 use think\Request;
 use think\Response;
 
 /**
  * 统一输出【格式化响应数据】
- * Class UnifiedOutput
+ * Class ResultMiddleware
  * @package app\middleware
  */
 class ResultMiddleware
@@ -57,7 +58,17 @@ class ResultMiddleware
      */
     public function end(Response $response)
     {
-
+        // 增加API请求响应日志
+        $api_log = \request()->param('apiLog', false);
+        if ($api_log === true) {
+            $log = [
+                'route' => \request()->url(true),
+                'param' => \request()->param(),
+                'header' => \request()->header(),
+                'response' =>$response->getContent(),
+            ];
+            Log::write($log);
+        }
     }
 
 }

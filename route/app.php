@@ -20,8 +20,10 @@ Route::miss(function () {
         throw new \app\exception\BusinessException(\app\constants\ErrorCode::NO_REQUEST);
     }
 );
+// 路由配置增加->append(['apiLog' => true]) 就会开启记录接口的请求与响应日志
+
 /*** 版本控制器路由 */
 Route::group(':version', function () {
-    Route::get('index', ':version.Index/index');
+    Route::get('index', ':version.Index/index')->append(['apiLog' => true]);
 })
-    ->middleware('app\middleware\CheckSign');;
+    ->middleware('app\middleware\CheckSign');

@@ -63,6 +63,10 @@ thinkPHP 6.0 脚手架
      
      备注：响应数据类型为app\response\Result会自动获取对应类属性（无特殊情况，直接return数据即可）
  ```
+  + 需要增加接口的请求和响应日志，只需要在路由配置增加上 `->append(['apiLog' => true])` 即可，示例：
+     ```
+      Route::get('index', ':version.Index/index')->append(['apiLog' => true]);
+     ```
  
  工具类
  ===============
