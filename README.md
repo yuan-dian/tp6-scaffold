@@ -35,12 +35,12 @@ thinkPHP 6.0 脚手架
     + 【安装】composer install（ 部署服务器建议：composer install --no-dev）
     + 【升级】composer update 
  
- + 权限: ```项目跟目录/runtime``` 目录权限为777
+ + 权限: ```项目跟目录/runtime``` 目录权限为777 ，Linux命令示例： ``` chmod 777 runtime``` 
   
 说明
 ===============
  + 开启miss路由（强制路由，使用前先配置路由）
- + 错误码信息需统一在 `app\response` 目录处理
+ + 错误码信息需统一在 `app\constants` 目录处理
  + 环境配置
     - 主配置文件  `项目根目录\.env` 应用配置
     - 环境配置 切换  `项目根目录\.env`  `ENV_CONFIG = xx`
