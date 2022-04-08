@@ -26,7 +26,7 @@ class BusinessException extends ServiceException
      * @param string $message 错误信息
      * @param int $httpCode http状态码
      */
-    public function __construct(int $code = 0, string $message = '', int $httpCode = 500)
+    public function __construct(int $code = 0, string $message = '', int $httpCode = 0)
     {
         if (empty($message)) {
             $message = ErrorCode::getMessage($code);
