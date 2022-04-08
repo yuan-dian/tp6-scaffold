@@ -66,6 +66,7 @@ class ResultMiddleware
                 'param' => \request()->param(),
                 'header' => \request()->header(),
                 'response' =>$response->getContent(),
+                'http_code' =>$response->getCode(),
             ];
             Log::write($log);
         }
