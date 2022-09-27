@@ -29,7 +29,7 @@ class ErrorCode extends AbstractConstants
     */
 
     /**
-     * @Message("Success111")
+     * @Message("Success")
      * @HttpCode("200")
      */
     #[Message("请求成功")]
