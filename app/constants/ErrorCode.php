@@ -10,6 +10,8 @@
 
 namespace app\constants;
 
+use app\attribute\Message;
+
 /**
  * 响应状态码
  * Class ErrorCode.
@@ -27,10 +29,10 @@ class ErrorCode extends AbstractConstants
     */
 
     /**
-     * @Message("Success")
+     * @Message("Success111")
      * @HttpCode("200")
      */
-    #[MyAttribute("message", "请求成功")]
+    #[Message("请求成功")]
     const SUCCESS = 0;
 
     /**
@@ -45,8 +47,7 @@ class ErrorCode extends AbstractConstants
      * @Message("Params error")
      * @HttpCode("400")
      */
-    #[MyAttribute("message", "Params error")]
-    #[MyAttribute("httpCode", "400")]
+    #[Message("Params error", 400)]
     const PARAM_ERROR = 1001;
 
     /**

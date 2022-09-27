@@ -10,6 +10,7 @@
 
 namespace app\constants;
 
+use app\attribute\Message;
 use ReflectionClassConstant;
 
 /**
@@ -31,11 +32,13 @@ class AnnotationReader
         /** @var ReflectionClassConstant $classConstant */
         foreach ($classConstants as $classConstant) {
             $code = $classConstant->getValue();
-            if (PHP_VERSION >= 8.0 && $ConstantAttribute = $classConstant->getAttributes('MyAttribute')) {
+            if (PHP_VERSION_ID >= 80000 && $ConstantAttribute = $classConstant->getAttributes(Message::class)) {
                 foreach ($ConstantAttribute as $attribute) {
-                    list($name, $value) = ($attribute->newInstance())->getDate();
-                    $key = mb_strtolower($name, 'UTF-8');
-                    $result[$code][$key] = $value;
+                    list($message, $httpCode) = ($attribute->newInstance())->getDate();
+                    $result[$code] = [
+                        'message' => mb_strtolower($message, 'UTF-8'),
+                        'httpcode' => $httpCode,
+                    ] ;
                 }
                 continue;
             }

@@ -7,19 +7,32 @@
 // | Date: 2021/6/18
 // +----------------------------------------------------------------------
 
-namespace app\constants;
+namespace app\attribute;
+
 use Attribute;
-#[Attribute(Attribute::TARGET_CLASS_CONSTANT|Attribute::IS_REPEATABLE)]
-class MyAttribute
+
+/**
+ * 常量注解
+ * Class Message
+ * @package app\attribute
+ */
+#[Attribute(Attribute::TARGET_CLASS_CONSTANT)]
+class Message
 {
     public $data = [];
-    public function __construct(public $name, public $value) {
-       $this->data = [$name,$value];
+
+    /**
+     * Message constructor.
+     * @param string $message   错误信息
+     * @param int $httpCode     http状态码
+     */
+    public function __construct(string $message, int $httpCode = 200)
+    {
+        $this->data = [$message, $httpCode];
     }
 
-    public function getDate(){
+    public function getDate(): array
+    {
         return $this->data;
     }
-
-
 }
