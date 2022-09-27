@@ -30,6 +30,7 @@ class ErrorCode extends AbstractConstants
      * @Message("Success")
      * @HttpCode("200")
      */
+    #[MyAttribute("message", "请求成功")]
     const SUCCESS = 0;
 
     /**
@@ -44,6 +45,8 @@ class ErrorCode extends AbstractConstants
      * @Message("Params error")
      * @HttpCode("400")
      */
+    #[MyAttribute("message", "Params error")]
+    #[MyAttribute("httpCode", "400")]
     const PARAM_ERROR = 1001;
 
     /**
