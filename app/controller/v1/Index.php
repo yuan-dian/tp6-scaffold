@@ -10,9 +10,12 @@
 namespace app\controller\v1;
 
 use app\controller\Base;
+use app\attribute\NoGlobalResponse;
 
+#[NoGlobalResponse]
 class Index extends Base
 {
+    #[NoGlobalResponse]
     public function index()
     {
         return 'Welcome to v1 *****';

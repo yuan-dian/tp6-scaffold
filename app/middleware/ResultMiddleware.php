@@ -9,6 +9,7 @@
 
 namespace app\middleware;
 
+use app\attribute\NoGlobalResponse;
 use app\response\Result;
 use think\facade\Env;
 use think\facade\Log;
@@ -32,14 +33,31 @@ class ResultMiddleware
      */
     public function handle(Request $request, \Closure $next): Response
     {
-        $request->unifiedOutput = true;
+        $request->globalResponse = true;
         /**
          * @var Response $response
          */
         $response = $next($request);
+        // php 大于8.0 才支持注解
+        if (PHP_VERSION_ID >= 80000) {
+            try {
+                $class = $request->controller();
+                $action = $request->action();
+                $class = str_replace('.', '\\', $class);
+                $ref = new \ReflectionClass('\\app\\controller\\' . $class);
 
+                foreach ($ref->getAttributes(NoGlobalResponse::class) as $attribute) {
+                    $attribute->newInstance();
+                }
+                foreach ($ref->getMethod($action)->getAttributes(NoGlobalResponse::class) as $attribute) {
+                    $attribute->newInstance();
+                }
+            }catch (\Throwable $e) {
+                Log::write($e);
+            }
+        }
         // debug 模式 且http状态码为500时直接输出
-        if ((true == Env::get('app_debug', false) && $response->getCode() == 500) || false === $request->unifiedOutput) {
+        if ((true == Env::get('app_debug', false) && $response->getCode() == 500) || false === $request->globalResponse) {
             return $response;
         }
         $data = $response->getData();
@@ -65,8 +83,8 @@ class ResultMiddleware
                 'route' => \request()->url(true),
                 'param' => \request()->param(),
                 'header' => \request()->header(),
-                'response' =>$response->getContent(),
-                'http_code' =>$response->getCode(),
+                'response' => $response->getContent(),
+                'http_code' => $response->getCode(),
             ];
             Log::write($log);
         }

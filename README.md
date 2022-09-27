@@ -63,6 +63,31 @@ thinkPHP 6.0 脚手架
      
      备注：响应数据类型为app\response\Result会自动获取对应类属性（无特殊情况，直接return数据即可）
  ```
+ + 取消统一输出
+    + 使用注解（PHP8+）
+        ```
+        use app\attribute\NoGlobalResponse;
+        
+        #[NoGlobalResponse]  // 注解在类上，该类的所有方法全部取消统一输出
+        class Index
+        {
+            #[NoGlobalResponse] // 注解在方法上，当前方法取消统一输出
+            public function index()
+            {
+                return 'Welcome to v1 *****';
+            }
+        }
+        ``` 
+     + 使用自定义函数
+       ```
+        public function index()
+        {
+            no_global_response(); // 在输出之前调用自定义函数
+            return 'Welcome to v1 *****';
+         }
+        
+       ```
+     
   + 需要增加接口的请求和响应日志，只需要在路由配置增加上 `->append(['apiLog' => true])` 即可，示例：
      ```
       Route::get('index', ':version.Index/index')->append(['apiLog' => true]);
