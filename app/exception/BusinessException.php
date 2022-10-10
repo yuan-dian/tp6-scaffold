@@ -18,7 +18,6 @@ use app\constants\ErrorCode;
  */
 class BusinessException extends ServiceException
 {
-    public $httpCode = 500;
 
     /**
      * BusinessException constructor.
@@ -32,11 +31,12 @@ class BusinessException extends ServiceException
             $message = ErrorCode::getMessage($code);
         }
         if (empty($httpCode)) {
-            $httpCode = ErrorCode::getHttpCode($code) ?: 500;
+            $httpCode = ErrorCode::getHttpCode($code) ?: $this->httpCode;
         }
         $this->httpCode = $httpCode;
         $this->message = $message;
         $this->code = $code;
+        parent::__construct($message, $code);
     }
 
 }

@@ -16,6 +16,6 @@ namespace app\exception;
  */
 abstract class ServiceException extends \RuntimeException
 {
-    public $httpCode = 500;
+    public int $httpCode = 500;
 
 }

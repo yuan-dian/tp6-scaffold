@@ -39,7 +39,7 @@ class ResultMiddleware
          */
         $response = $next($request);
         // php 大于8.0 才支持注解
-        if (PHP_VERSION_ID >= 80000) {
+        if (PHP_VERSION_ID >= 80000 && $request->globalResponse) {
             try {
                 $class = $request->controller();
                 $action = $request->action();
@@ -57,7 +57,7 @@ class ResultMiddleware
             }
         }
         // debug 模式 且http状态码为500时直接输出
-        if ((true == Env::get('app_debug', false) && $response->getCode() == 500) || false === $request->globalResponse) {
+        if ((Env::get('app_debug', false) && $response->getCode() == 500) || false === $request->globalResponse) {
             return $response;
         }
         $data = $response->getData();
