@@ -41,10 +41,10 @@ class ResultMiddleware
         // php 大于8.0 才支持注解
         if (PHP_VERSION_ID >= 80000 && $request->globalResponse) {
             try {
-                $class = $request->controller();
+                // 解析控制器
+                $class = app()->parseClass('controller', $request->controller());
                 $action = $request->action();
-                $class = str_replace('.', '\\', $class);
-                $ref = new \ReflectionClass('\\app\\controller\\' . $class);
+                $ref = new \ReflectionClass($class);
 
                 foreach ($ref->getAttributes(NoGlobalResponse::class) as $attribute) {
                     $attribute->newInstance();

@@ -23,11 +23,11 @@ class CheckSign
      * 中间件执行方法
      * @param Request $request 请求信息
      * @param \Closure $next 闭包
-     * @return mixed
+     * @return Response
      * @date 2020/4/24 13:31
      * @author 原点 467490186@qq.com
      */
-    public function handle(Request $request, \Closure $next)
+    public function handle(Request $request, \Closure $next): Response
     {
         //前置中间件业务
 
