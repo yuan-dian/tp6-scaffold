@@ -1,8 +1,8 @@
 <?php
+
 namespace app;
 
 use app\constants\ErrorCode;
-use app\exception\BusinessException;
 use app\exception\ServiceException;
 use app\response\Result;
 use think\db\exception\DataNotFoundException;
@@ -43,7 +43,7 @@ class ExceptionHandle extends Handle
      * 记录异常信息（包括日志或者其它方式记录）
      *
      * @access public
-     * @param  Throwable $exception
+     * @param Throwable $exception
      * @return void
      */
     public function report(Throwable $exception): void
@@ -62,7 +62,7 @@ class ExceptionHandle extends Handle
                 // 错误行号
                 'line' => $exception->getLine(),
                 // 错误堆栈
-                'trace' => explode('#4', $exception->getTraceAsString())[0],
+                'trace' => explode('#5', $exception->getTraceAsString())[0],
                 // get 参数
                 'GET' => Request::get(),
                 // post参数
@@ -87,7 +87,7 @@ class ExceptionHandle extends Handle
      * @date 2021/6/16 14:20
      * @author 原点 467490186@qq.com
      */
-    public function render($request, Throwable $e) :Response
+    public function render($request, Throwable $e): Response
     {
         $message = $this->getMessage($e);
         $code = ErrorCode::FAIL;
@@ -112,7 +112,7 @@ class ExceptionHandle extends Handle
             $message = '服务异常请重试';
         }
 
-        if (true == Env::get('app_debug', false) && $this->httpCode == 500) {
+        if (Env::get('app_debug', false) && $this->httpCode == 500) {
             no_global_response();
             return parent::render($request, $e);
         }

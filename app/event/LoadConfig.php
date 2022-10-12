@@ -26,7 +26,7 @@ class LoadConfig
         $config_ext = app()->getConfigExt(); //获取配置后缀
         $dir = $config_path . $env_config . DIRECTORY_SEPARATOR;
 
-        $files = isset($dir) ? scandir($dir) : [];
+        $files = file_exists($dir) ? scandir($dir) : [];
 
         foreach ($files as $file) {
             if ('.' . pathinfo($file, PATHINFO_EXTENSION) === $config_ext) {

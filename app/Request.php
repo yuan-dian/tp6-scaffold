@@ -1,10 +1,12 @@
 <?php
+
 namespace app;
 
 // 应用请求对象类
 class Request extends \think\Request
 {
     protected $proxyServerIp = ['0.0.0.0'];
+
     /**
      * 获取客户端IP地址 （重写方法，去除代理ip校验）
      * @access public
@@ -20,7 +22,7 @@ class Request extends \think\Request
 
         // 如果指定了前端代理服务器IP以及其会发送的IP头
         // 则尝试获取前端代理服务器发送过来的真实IP
-        $proxyIp       = $this->proxyServerIp;
+        $proxyIp = $this->proxyServerIp;
         $proxyIpHeader = $this->proxyServerIpHeader;
 
         $tempIP = '';
@@ -41,7 +43,7 @@ class Request extends \think\Request
                     break;
                 }
             }
-            if ($tempIP){
+            if ($tempIP) {
                 $this->realIP = $tempIP;
             }
         }

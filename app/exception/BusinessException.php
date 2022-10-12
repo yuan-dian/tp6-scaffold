@@ -31,7 +31,7 @@ class BusinessException extends ServiceException
             $message = ErrorCode::getMessage($code);
         }
         if (empty($httpCode)) {
-            $httpCode = ErrorCode::getHttpCode($code) ?: $this->httpCode;
+            $httpCode = (int)ErrorCode::getHttpCode($code) ?: $this->httpCode;
         }
         $this->httpCode = $httpCode;
         $this->message = $message;

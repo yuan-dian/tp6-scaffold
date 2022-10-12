@@ -38,7 +38,7 @@ class AnnotationReader
                     $result[$code] = [
                         'message' => mb_strtolower($message, 'UTF-8'),
                         'httpcode' => $httpCode,
-                    ] ;
+                    ];
                 }
                 continue;
             }

@@ -52,7 +52,7 @@ class ResultMiddleware
                 foreach ($ref->getMethod($action)->getAttributes(NoGlobalResponse::class) as $attribute) {
                     $attribute->newInstance();
                 }
-            }catch (\Throwable $e) {
+            } catch (\Throwable $e) {
                 Log::write($e);
             }
         }
@@ -63,7 +63,7 @@ class ResultMiddleware
         $data = $response->getData();
 
         if (!$data instanceof Result) {
-            $data =  (new Result())->setData($data);
+            $data = (new Result())->setData($data);
         }
         return format_response($data);
     }

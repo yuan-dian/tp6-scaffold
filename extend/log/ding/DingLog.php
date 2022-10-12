@@ -5,7 +5,6 @@ namespace log\ding;
 use bingher\ding\DingBot;
 use think\contract\LogHandlerInterface;
 use think\facade\Lang;
-use think\facade\Request;
 
 /**
  * 钉钉日志驱动
@@ -47,15 +46,15 @@ class DingLog implements LogHandlerInterface
      */
     public function save(array $log = []): bool
     {
-        if ($this->config['enabled'] && false == env('app_debug', 'false') && isset($log['error'][0])) {
+        if ($this->config['enabled'] && !env('app_debug', 'false') && isset($log['error'][0])) {
             $message = [
                 'system_name' => $this->config['system_name'],
                 'env' => env('env_config', 'prod'),
             ];
-            $message = array_merge( $message, $log['error'][0]);
+            $message = array_merge($message, $log['error'][0]);
             $msg = '';
             foreach ($message as $key => $value) {
-                $msg .= Lang::get($key) . '：' . (is_string($value) ? $value : json_encode($value, JSON_UNESCAPED_UNICODE) ). "\r\n";
+                $msg .= Lang::get($key) . '：' . (is_string($value) ? $value : json_encode($value, JSON_UNESCAPED_UNICODE)) . "\r\n";
             }
 
             $this->ding->at($this->config['at'])->text(trim($msg));
