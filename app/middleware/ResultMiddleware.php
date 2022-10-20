@@ -38,28 +38,14 @@ class ResultMiddleware
          * @var Response $response
          */
         $response = $next($request);
-        // php 大于8.0 才支持注解
-        if (PHP_VERSION_ID >= 80000 && $request->globalResponse) {
-            try {
-                // 解析控制器
-                $class = app()->parseClass('controller', $request->controller());
-                $action = $request->action();
-                $ref = new \ReflectionClass($class);
 
-                foreach ($ref->getAttributes(NoGlobalResponse::class) as $attribute) {
-                    $attribute->newInstance();
-                }
-                foreach ($ref->getMethod($action)->getAttributes(NoGlobalResponse::class) as $attribute) {
-                    $attribute->newInstance();
-                }
-            } catch (\Throwable $e) {
-                Log::write($e);
-            }
-        }
+        $this->setGlobalResponse($request);
+
         // debug 模式 且http状态码为500时直接输出
         if ((Env::get('app_debug', false) && $response->getCode() == 500) || false === $request->globalResponse) {
             return $response;
         }
+        // 获取响应数据
         $data = $response->getData();
 
         if (!$data instanceof Result) {
@@ -69,12 +55,47 @@ class ResultMiddleware
     }
 
     /**
+     * 设置是否统一输出
+     * @param Request $request
+     * @date 2022/10/20 17:00
+     * @author 原点 467490186@qq.com
+     */
+    private function setGlobalResponse(Request $request): void
+    {
+        // php 大于8.0 才支持注解
+        if (PHP_VERSION_ID < 80000 || !$request->globalResponse) {
+            return;
+        }
+        try {
+            // 解析控制器
+            $class = app()->parseClass('controller', $request->controller());
+            $action = $request->action();
+            $ref = new \ReflectionClass($class);
+
+            foreach ($ref->getAttributes(NoGlobalResponse::class) as $attribute) {
+                $attribute->newInstance();
+            }
+            // 类设置了取消统一输出，则不需要检查方法
+            if (!$request->globalResponse) {
+                return;
+            }
+
+            foreach ($ref->getMethod($action)->getAttributes(NoGlobalResponse::class) as $attribute) {
+                $attribute->newInstance();
+            }
+        } catch (\Throwable $e) {
+            Log::write($e);
+        }
+
+    }
+
+    /**
      * 结束调度(请求结束前回调)
      * @param Response $response
      * @date 2020/4/24 13:30
      * @author 原点 467490186@qq.com
      */
-    public function end(Response $response)
+    public function end(Response $response): void
     {
         // 增加API请求响应日志
         $api_log = \request()->param('apiLog', false);
