@@ -52,10 +52,10 @@ class AnnotationReader
 
     /**
      * 格式注释内容.
-     *
-     * @param $doc
-     *
+     * @param string $doc
      * @return array
+     * @date 2023/2/1 16:06
+     * @author 原点 467490186@qq.com
      */
     protected function parse(string $doc): array
     {

@@ -21,8 +21,13 @@ use think\helper\Str;
 abstract class AbstractConstants
 {
     /**
-     * @throws \ReflectionException
+     * @param $name
+     * @param $arguments
+     * @return mixed
      * @throws Exception
+     * @throws \ReflectionException
+     * @date 2023/2/1 16:04
+     * @author 原点 467490186@qq.com
      */
     public static function __callStatic($name, $arguments)
     {

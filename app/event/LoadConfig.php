@@ -19,7 +19,7 @@ use think\facade\Env;
  */
 class LoadConfig
 {
-    public function handle()
+    public function handle(): void
     {
         $config_path = app()->getConfigPath(); //获取配置文件目录
         $env_config = Env::get('env_config', 'prod'); //获取当前环境信息

@@ -14,13 +14,12 @@ namespace app\response;
  */
 class Result
 {
-    private $code = 0;
+    private int $code = 0;
 
-    private $message = 'success';
+    private string $message = 'success';
 
     private $data;
-
-    private $httpCode = 200;
+    private int $httpCode = 200;
 
 
     /**

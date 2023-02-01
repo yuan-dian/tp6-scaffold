@@ -19,12 +19,12 @@ use Attribute;
 #[Attribute(Attribute::TARGET_CLASS_CONSTANT)]
 class Message
 {
-    public $data = [];
+    public array $data = [];
 
     /**
      * Message constructor.
-     * @param string $message   错误信息
-     * @param int $httpCode     http状态码
+     * @param string $message 错误信息
+     * @param int $httpCode http状态码
      */
     public function __construct(string $message, int $httpCode = 200)
     {

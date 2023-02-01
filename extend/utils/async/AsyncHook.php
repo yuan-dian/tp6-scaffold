@@ -17,17 +17,17 @@ namespace utils\async;
  */
 class AsyncHook
 {
-    private static $hook_list = array();
-    private static $hooked = false;
+    private static array $hook_list = array();
+    private static bool $hooked = false;
 
     /**
      * 注册需要执行的函数
      * @param array $callback 回调方法
-     * @param array $params   参数
+     * @param array $params 参数
      * @date 2020/6/17 13:51
      * @author 原点 467490186@qq.com
      */
-    public static function register(array $callback, $params = [])
+    public static function register(array $callback, array $params = [])
     {
         self::$hook_list[] = array('callback' => $callback, 'params' => $params);
     }
@@ -40,7 +40,7 @@ class AsyncHook
     public function handle()
     {
         try {
-            if (self::$hooked == false && self::$hook_list) {
+            if (!self::$hooked && self::$hook_list) {
                 self::$hooked = true;
                 register_shutdown_function(array(__CLASS__, '__hook'));
             }
@@ -60,16 +60,20 @@ class AsyncHook
      */
     public static function __hook()
     {
-        if (!function_exists('fastcgi_finish_request')) {
+        if (empty(self::$hook_list)) {
+            return;
+        }
+        // 提高页面响应
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        } else {
             // 提高页面响应
             header('Content-Length: ' . ob_get_length());  //告诉浏览器数据长度,浏览器接收到此长度数据后就不再接收数据
             header("Connection: Close");      //告诉浏览器关闭当前连接,即为短连接
             ob_flush();
             flush();
         }
-        if (empty(self::$hook_list)) {
-            return;
-        }
+
         foreach (self::$hook_list as $hook) {
             try {
                 $callback = $hook['callback'];
