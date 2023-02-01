@@ -22,14 +22,14 @@ class AsyncHook
 
     /**
      * 注册需要执行的函数
-     * @param array $callback 回调方法
-     * @param array $params 参数
+     * @param callable $callback 回调方法
+     * @param array $args 参数
      * @date 2020/6/17 13:51
      * @author 原点 467490186@qq.com
      */
-    public static function register(array $callback, array $params = [])
+    public static function register(callable $callback, array $args = [])
     {
-        self::$hook_list[] = array('callback' => $callback, 'params' => $params);
+        self::$hook_list[] = array('callback' => $callback, 'args' => $args);
     }
 
     /**
@@ -76,9 +76,7 @@ class AsyncHook
 
         foreach (self::$hook_list as $hook) {
             try {
-                $callback = $hook['callback'];
-                $params = $hook['params'];
-                call_user_func_array($callback, $params);
+                call_user_func_array($hook['callback'], $hook['args']);
             } catch (\Exception $e) {
                 // 回调失败
                 // 记录日志
