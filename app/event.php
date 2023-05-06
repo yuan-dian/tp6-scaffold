@@ -1,13 +1,13 @@
 <?php
 // 事件定义文件
 return [
-    'bind'      => [
+    'bind' => [
     ],
 
-    'listen'    => [
-        'AppInit'  => ['app\event\LoadConfig'],
-        'HttpRun'  => [],
-        'HttpEnd'  => ['utils\async\AsyncHook'],
+    'listen' => [
+        'AppInit' => ['app\event\LoadConfig'],
+        'HttpRun' => [],
+        'HttpEnd' => ['app\event\AsyncEvent'],
         'LogLevel' => [],
         'LogWrite' => [],
     ],

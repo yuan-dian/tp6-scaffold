@@ -102,15 +102,13 @@ thinkPHP 6.0 脚手架
 工具类
 ===============
 
-+ 伪异步 `utils\async\AsyncHook`;
-    - 应用结束时触发代码执行，基于`register_shutdown_function`实现，示例：
-   ```
-   /**
-     * 注册需要执行的函数
-     * @param callable $callback 回调方法
-     * @param array $args 参数
-     */
-     AsyncHook::register(callable $callback, array $args = []);
++ 伪异步 `app\event\AsyncEvent`;
+  /**
+    * 注册需要执行的函数
+    * @param callable $callback 回调方法
+    * @param array $args 参数
+      */
+      AsyncEvent::register(callable $callback, array $args = []);
    ```
 
 备注
