@@ -10,108 +10,43 @@
 
 namespace app\constants;
 
-use app\attribute\Message;
-
 /**
- * 响应状态码
- * Class ErrorCode.
- * @method static string getMessage(int $code) 获取状态码对应的说明
- * @method static int getHttpCode(int $code) 获取状态码对应的HTTP 状态码
+ * 错误状态码
+ *
+ * 使用该异常时，会触发error日志记录
  */
-class ErrorCode extends AbstractConstants
+class ErrorCode extends BaseCode
 {
     /*
-    1000-1999	请求错误（参数错误等）
-    2000-2999	用户信息错误（包括权限等）
-    3000-3999	系统错误（如数据库连接失败，创建文件失败等）
-    4000-4999	自定义错误
-    5000-5099   系统未知异常
+    4000-4999	系统错误（如数据库连接失败，创建文件失败等）
     */
 
     /**
-     * @Message("Success")
-     * @HttpCode("200")
+     * 未知错误
+     * @Message("未知错误")
+     * @HttpCode("500")
      */
-    #[Message("请求成功")]
-    const SUCCESS = 0;
+    const FAIL = 4000;
 
-    /**
-     * 请求失败
-     * @Message("请求失败")
-     * @HttpCode("403")
-     */
-    const FAIL = 5000;
-
-    // 请求错误
-    /**
-     * @Message("Params error")
-     * @HttpCode("400")
-     */
-    #[Message("Params error", 400)]
-    const PARAM_ERROR = 1001;
-
-    /**
-     * @Message("Illegal request")
-     * @HttpCode("401")
-     */
-    const ILLEGAL_REQUEST = 1002;
-
-    /**
-     * @Message("Undefined request")
-     * @HttpCode("404")
-     */
-    const NO_REQUEST = 1003;
-
-    /**
-     * @Message("Sign error")
-     * @HttpCode("403")
-     */
-    const SIGN_ERROR = 1004;
-
-    // 系统错误
     // DB错误
     /**
+     * 数据库异常
      * @Message("Db error")
      * @HttpCode("500")
      */
-    const MYSQL_ERROR = 3001;
+    const MYSQL_ERROR = 4001;
 
     /**
+     * 数据库事务回滚
      * @Message("Db rollback")
      * @HttpCode("500")
      */
-    const MYSQL_ROLLBACK = 3002;
+    const MYSQL_ROLLBACK = 4002;
 
     /**
+     * 数据库保存失败
      * @Message("Db save error")
      * @HttpCode("500")
      */
-    const MYSQL_SAVE_ERROR = 3003;
-
-
-    // 自定义错误
-    /**
-     * @Message("Share password error")
-     * @HttpCode("200")
-     */
-    const SHARE_PASSWORD_ERROR = 4001;
-
-    /**
-     * @Message("Share time error")
-     * @HttpCode("200")
-     */
-    const SHARE_TIME_ERROR = 4002;
-
-    /**
-     * @Message("Share cancel")
-     * @HttpCode("200")
-     */
-    const SHARE_CANCEL = 4003;
-
-    /**
-     * 非法访问
-     * @Message("Illegal access")
-     * @HttpCode("403")
-     */
-    const ILLEGAL_ACCESS_ERROR = 4004;
+    const MYSQL_SAVE_ERROR = 4003;
 }

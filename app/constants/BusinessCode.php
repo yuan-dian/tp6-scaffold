@@ -1,22 +1,30 @@
 <?php
+
 // +----------------------------------------------------------------------
-// | 业务异常类
+// | 自定义状态码类
 // +----------------------------------------------------------------------
 // | Author: 原点 <467490186@qq.com>
 // +----------------------------------------------------------------------
-// | Date: 2021/3/24
+// | Date: 2020/5/3
 // +----------------------------------------------------------------------
 
-namespace app\exception;
-
-use app\constants\BusinessCode;
+namespace app\constants;
 
 /**
- * 业务异常
- * Class BusinessException
- * @package app\exception
+ * 业务错误码
+ * Class ErrorCode.
  */
-class BusinessException extends ServiceException
+class BusinessCode extends BaseCode
 {
-    protected string $codeClass = BusinessCode::class;
+    /*
+    3000-3999	自定义错误
+    */
+
+    /**
+     * @Message("系统错误")
+     * @HttpCode("200")
+     */
+    const DEFAULT_CODE = 3000;
+
+
 }

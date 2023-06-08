@@ -1,22 +1,22 @@
 <?php
 // +----------------------------------------------------------------------
-// | 业务异常类
+// | 
+// +----------------------------------------------------------------------
+// | @copyright (c) http://www.auntec.cn All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 原点 <467490186@qq.com>
 // +----------------------------------------------------------------------
-// | Date: 2021/3/24
+// | Date: 2023/6/7
 // +----------------------------------------------------------------------
-
 namespace app\exception;
 
-use app\constants\BusinessCode;
+use app\constants\ErrorCode;
 
 /**
- * 业务异常
- * Class BusinessException
- * @package app\exception
+ * 错误异常
  */
-class BusinessException extends ServiceException
+class ErrorException extends ServiceException
 {
-    protected string $codeClass = BusinessCode::class;
+    protected string $codeClass = ErrorCode::class;
+
 }

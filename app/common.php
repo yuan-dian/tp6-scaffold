@@ -1,8 +1,8 @@
 <?php
 // 应用公共文件
+use app\response\Result;
 use think\facade\Request;
 use think\Response;
-use app\response\Result;
 
 if (!function_exists('format_response')) {
     /**
@@ -19,7 +19,9 @@ if (!function_exists('format_response')) {
             'message' => $result->getMessage(),
         ];
         $httpCode = $result->getHttpCode();
-        $data['data'] = $result->getData() ?: new stdClass();
+        if ($result->getData()) {
+            $data['data'] = $result->getData();
+        }
 
         $Accept = Request::header('accept') ?: 'application/json';
         switch ($Accept) {
@@ -46,6 +48,7 @@ if (!function_exists('format_response')) {
  * @date 2021/7/21 18:32
  * @author 原点 467490186@qq.com
  */
-function no_global_response(){
+function no_global_response()
+{
     request()->globalResponse = false;
 }

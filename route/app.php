@@ -17,8 +17,8 @@ Route::rule('/', function () {
 
 /*** miss路由 */
 Route::miss(function () {
-        throw new \app\exception\BusinessException(\app\constants\ErrorCode::NO_REQUEST);
-    }
+    throw new \app\exception\BusinessException(\app\constants\BusinessCode::NO_REQUEST);
+}
 );
 // 路由配置增加->append(['apiLog' => true]) 就会开启记录接口的请求与响应日志
 

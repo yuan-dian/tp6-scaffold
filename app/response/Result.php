@@ -18,7 +18,7 @@ class Result
 
     private string $message = 'success';
 
-    private $data;
+    private $data = '';
     private int $httpCode = 200;
 
 

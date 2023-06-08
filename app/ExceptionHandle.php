@@ -2,7 +2,9 @@
 
 namespace app;
 
+use app\constants\CommonCode;
 use app\constants\ErrorCode;
+use app\exception\BusinessException;
 use app\exception\ServiceException;
 use app\response\Result;
 use think\db\exception\DataNotFoundException;
@@ -24,6 +26,7 @@ class ExceptionHandle extends Handle
 {
     /**
      * @var int http 状态码
+     *
      */
     protected $httpCode = 500;
     /**
@@ -36,7 +39,7 @@ class ExceptionHandle extends Handle
         ModelNotFoundException::class,
         DataNotFoundException::class,
         ValidateException::class,
-        ServiceException::class,
+        BusinessException::class,
     ];
 
     /**
@@ -66,7 +69,7 @@ class ExceptionHandle extends Handle
                 // get 参数
                 'GET' => Request::get(),
                 // post参数
-                'POST' => Request::post(),
+                'POST' => Request::post() ?: Request::getInput(),
                 // header 头信息
                 'header' => Request::header(),
                 // 访问ip
@@ -90,11 +93,12 @@ class ExceptionHandle extends Handle
     public function render($request, Throwable $e): Response
     {
         $message = $this->getMessage($e);
+        // 未知异常
         $code = ErrorCode::FAIL;
         // 参数验证错误
         if ($e instanceof ValidateException) {
             $message = $e->getError();
-            $code = ErrorCode::PARAM_ERROR;
+            $code = CommonCode::PARAM_ERROR;
             $this->httpCode = 400;
         }
         // 判断是否为自定义错误类型

@@ -41,19 +41,8 @@ abstract class AbstractConstants
 
         $code = $arguments[0];
         $name = strtolower(substr($name, 3));
-
-        $debug = env('app_debug');
-        // 应用调试模式 不走缓存 方便开发调试
-        if ($debug) {
-            $message = self::getResponseCodes();
-        } else {
-            $message = Cache::get('response_code');
-
-            if (!$message || !isset($message[$code])) {
-                $message = self::getResponseCodes();
-                Cache::set('response_code', $message, 3600);
-            }
-        }
+        
+        $message = self::getResponseCodes();
 
         $lang_key = $message[$code][$name] ?? 'Undefined error';
         return lang($lang_key);
@@ -68,10 +57,16 @@ abstract class AbstractConstants
     public static function getResponseCodes(): array
     {
         $class = get_called_class();
-        $reader = new AnnotationReader();
-        $ref = new \ReflectionClass($class);
-        $classConstants = $ref->getReflectionConstants();
+        $message = Cache::get('code:' . $class, []);
+        $debug = env('app_debug');
+        if ($debug || empty($message)) {
+            $reader = new AnnotationReader();
+            $ref = new \ReflectionClass($class);
+            $classConstants = $ref->getReflectionConstants();
 
-        return $reader->getAnnotations($classConstants);
+            $message = $reader->getAnnotations($classConstants);
+            Cache::set('response_code', $message, 3600);
+        }
+        return $message;
     }
 }
