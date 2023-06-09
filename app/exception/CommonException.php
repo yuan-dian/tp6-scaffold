@@ -6,18 +6,18 @@
 // +----------------------------------------------------------------------
 // | Author: 原点 <467490186@qq.com>
 // +----------------------------------------------------------------------
-// | Date: 2023/6/7
+// | Date: 2023/6/9
 // +----------------------------------------------------------------------
-namespace app\constants;
+namespace app\exception;
 
+use app\exception\code\CommonExceptionCode;
 
-/**
- * 响应状态码
- * Class ErrorCode.
- * @method static string getMessage(int $code) 获取状态码对应的说明
- * @method static int getHttpCode(int $code) 获取状态码对应的HTTP 状态码
- */
-abstract class BaseCode extends AbstractConstants
+class CommonException extends ServiceException
 {
+    protected int $httpCode = 500;
 
+    public function __construct(CommonExceptionCode $code, string $message = '', int $httpCode = 0)
+    {
+        parent::__construct($code, $message, $httpCode);
+    }
 }

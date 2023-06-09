@@ -18,7 +18,7 @@ class Result
 
     private string $message = 'success';
 
-    private $data = '';
+    private mixed $data = '';
     private int $httpCode = 200;
 
 
@@ -71,7 +71,7 @@ class Result
      * @date 2021/6/16 14:01
      * @author 原点 467490186@qq.com
      */
-    public function getData()
+    public function getData(): mixed
     {
         return $this->data;
     }
@@ -129,6 +129,13 @@ class Result
      */
     public function __toArray(): array
     {
-        return get_object_vars($this);
+        $data = [
+            'code' => $this->getCode(),
+            'message' => $this->getMessage(),
+        ];
+        if ($this->getData()) {
+            $data['data'] = $this->getData();
+        }
+        return $data;
     }
 }

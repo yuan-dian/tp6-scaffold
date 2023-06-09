@@ -9,8 +9,8 @@
 
 namespace app\exception;
 
-use app\constants\BaseCode;
-use app\constants\CommonCode;
+use app\exception\trait\EnumTrait;
+use BackedEnum;
 
 /**
  * 业务异常
@@ -19,24 +19,33 @@ use app\constants\CommonCode;
  */
 abstract class ServiceException extends \RuntimeException
 {
-    public int $httpCode = 500;
-    /**
-     * @var BaseCode
-     */
-    protected string $codeClass = CommonCode::class;
+    protected int $httpCode = 500;
 
-    public function __construct(int $code = 0, string $message = '', int $httpCode = 0)
+    /**
+     * @param EnumTrait|BackedEnum $codeEnum
+     * @param string $message
+     * @param int $httpCode
+     */
+    public function __construct($codeEnum, string $message = '', int $httpCode = 0)
     {
         if (empty($message)) {
-            $message = $this->codeClass::getMessage($code);
+            $message = $codeEnum->getMessage();
         }
         if (empty($httpCode)) {
-            $httpCode = (int)$this->codeClass::getHttpCode($code) ?: $this->httpCode;
+            $httpCode = $codeEnum->getHttpCode();
         }
         $this->httpCode = $httpCode;
         $this->message = $message;
-        $this->code = $code;
-        parent::__construct($message, $code);
+        $this->code = $codeEnum->value;
+        parent::__construct($message, $codeEnum->value);
+    }
+
+    /**
+     * @return int
+     */
+    public function getHttpCode(): int
+    {
+        return $this->httpCode;
     }
 
 

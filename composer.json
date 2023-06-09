@@ -20,7 +20,7 @@
     }
   ],
   "require": {
-    "php": ">=7.4",
+    "php": ">=8.1",
     "topthink/framework": "^6.1.0",
     "topthink/think-orm": "^2.0",
     "bingher/ding-bot": "^1.4",

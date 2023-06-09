@@ -9,7 +9,8 @@
 
 namespace app\exception;
 
-use app\constants\BusinessCode;
+use app\exception\code\BusinessExceptionCode;
+
 
 /**
  * 业务异常
@@ -18,5 +19,10 @@ use app\constants\BusinessCode;
  */
 class BusinessException extends ServiceException
 {
-    protected string $codeClass = BusinessCode::class;
+    protected int $httpCode = 200;
+
+    public function __construct(BusinessExceptionCode $code, string $message = '', int $httpCode = 0)
+    {
+        parent::__construct($code, $message, $httpCode);
+    }
 }

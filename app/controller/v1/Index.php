@@ -9,18 +9,15 @@
 
 namespace app\controller\v1;
 
-use app\attribute\NoGlobalResponse;
-use app\constants\ErrorCode;
+use app\Annotation\NoGlobalResponse;
 use app\controller\Base;
-use app\exception\ErrorException;
 
 #[NoGlobalResponse]
 class Index extends Base
 {
     #[NoGlobalResponse]
-    public function index()
+    public function index(): string
     {
-        throw new ErrorException(ErrorCode::FAIL);
-//        return 'Welcome to v1 *****';
+        return 'Welcome to v1 *****';
     }
 }

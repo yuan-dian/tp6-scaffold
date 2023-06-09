@@ -6,25 +6,18 @@
 // +----------------------------------------------------------------------
 // | Author: 原点 <467490186@qq.com>
 // +----------------------------------------------------------------------
-// | Date: 2022/9/26
+// | Date: 2023/6/9
 // +----------------------------------------------------------------------
+namespace app\exception\code;
 
-namespace app\attribute;
+use app\Annotation\Message;
+use app\exception\trait\EnumTrait;
 
-use Attribute;
-
-/**
- * 取消统一输出注解
- * Class NoGlobalResponse
- * @package app\attribute
- */
-#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
-class NoGlobalResponse
+enum BusinessExceptionCode: int
 {
-    public function __construct()
-    {
-        // 关闭统一输出
-        app('request')->globalResponse = false;
-    }
+    use EnumTrait;
+
+    #[Message('系统错误', 200)]
+    case DEFAULT_CODE = 3000;
 
 }

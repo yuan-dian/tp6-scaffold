@@ -2,17 +2,11 @@
 
 namespace app;
 
-use app\constants\CommonCode;
-use app\constants\ErrorCode;
-use app\exception\BusinessException;
+use app\exception\code\CommonExceptionCode;
 use app\exception\ServiceException;
 use app\response\Result;
-use think\db\exception\DataNotFoundException;
-use think\db\exception\ModelNotFoundException;
 use think\db\exception\PDOException;
 use think\exception\Handle;
-use think\exception\HttpException;
-use think\exception\HttpResponseException;
 use think\exception\ValidateException;
 use think\facade\Env;
 use think\facade\Request;
@@ -28,19 +22,7 @@ class ExceptionHandle extends Handle
      * @var int http 状态码
      *
      */
-    protected $httpCode = 500;
-    /**
-     * 不需要记录信息（日志）的异常类列表
-     * @var array
-     */
-    protected $ignoreReport = [
-        HttpException::class,
-        HttpResponseException::class,
-        ModelNotFoundException::class,
-        DataNotFoundException::class,
-        ValidateException::class,
-        BusinessException::class,
-    ];
+    protected int $httpCode = 500;
 
     /**
      * 记录异常信息（包括日志或者其它方式记录）
@@ -52,6 +34,8 @@ class ExceptionHandle extends Handle
     public function report(Throwable $exception): void
     {
         if (!$this->isIgnoreReport($exception)) {
+            $header = Request::header();
+            unset($header['cookie'], $header['accept'], $header['host'], $header['connection']);
             // 收集异常数据
             $data = [
                 // uri
@@ -71,7 +55,7 @@ class ExceptionHandle extends Handle
                 // post参数
                 'POST' => Request::post() ?: Request::getInput(),
                 // header 头信息
-                'header' => Request::header(),
+                'header' => $header,
                 // 访问ip
                 'ip' => Request::ip(),
             ];
@@ -86,7 +70,7 @@ class ExceptionHandle extends Handle
     /**
      * @param \think\Request $request
      * @param Throwable $e
-     * @return Result|Response
+     * @return Response
      * @date 2021/6/16 14:20
      * @author 原点 467490186@qq.com
      */
@@ -94,21 +78,22 @@ class ExceptionHandle extends Handle
     {
         $message = $this->getMessage($e);
         // 未知异常
-        $code = ErrorCode::FAIL;
+        $code = CommonExceptionCode::DEFAULT_FAIL->value;
         // 参数验证错误
         if ($e instanceof ValidateException) {
             $message = $e->getError();
-            $code = CommonCode::PARAM_ERROR;
+            $code = CommonExceptionCode::PARAM_ERROR->value;
             $this->httpCode = 400;
         }
         // 判断是否为自定义错误类型
         if ($e instanceof ServiceException) {
             $code = $this->getCode($e);
-            $this->httpCode = (int)$e->httpCode;
+            $this->httpCode = (int)$e->getHttpCode();
         }
         // PDO异常
         if ($e instanceof PDOException) {
-            $code = ErrorCode::MYSQL_ERROR;
+            $code = CommonExceptionCode::MYSQL_ERROR->value;
+            $message = CommonExceptionCode::MYSQL_ERROR->getMessage();
         }
 
         // 服务器错误，正式环境统一输出错误信息，防止服务器信息敏感信息被输出
@@ -121,5 +106,16 @@ class ExceptionHandle extends Handle
             return parent::render($request, $e);
         }
         return response((new Result())->setCode($code)->setMessage($message)->setHttpCode($this->httpCode));
+    }
+
+    protected function isIgnoreReport(Throwable $exception): bool
+    {
+        if ($exception instanceof ServiceException) {
+            if ($exception->getHttpCode() == 500) {
+                return false;
+            }
+            return true;
+        }
+        return parent::isIgnoreReport($exception);
     }
 }

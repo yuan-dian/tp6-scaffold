@@ -6,17 +6,19 @@
 // +----------------------------------------------------------------------
 // | Author: 原点 <467490186@qq.com>
 // +----------------------------------------------------------------------
-// | Date: 2023/6/7
+// | Date: 2022/9/26
 // +----------------------------------------------------------------------
-namespace app\exception;
 
-use app\constants\ErrorCode;
+namespace app\Annotation;
+
+use Attribute;
 
 /**
- * 错误异常
+ * 取消统一输出注解
+ * Class NoGlobalResponse
+ * @package app\attribute
  */
-class ErrorException extends ServiceException
+#[Attribute(Attribute::TARGET_CLASS | Attribute::TARGET_METHOD)]
+class NoGlobalResponse
 {
-    protected string $codeClass = ErrorCode::class;
-
 }

@@ -9,9 +9,8 @@
 
 namespace app\middleware;
 
-use app\attribute\NoGlobalResponse;
+use app\Annotation\NoGlobalResponse;
 use app\response\Result;
-use think\facade\Env;
 use think\facade\Log;
 use think\Request;
 use think\Response;
@@ -39,54 +38,52 @@ class ResultMiddleware
          */
         $response = $next($request);
 
-        $this->setGlobalResponse($request);
-
-        // debug 模式 且http状态码为500时直接输出
-        if ((Env::get('app_debug', false) && $response->getCode() == 500) || false === $request->globalResponse) {
-            return $response;
-        }
         // 获取响应数据
         $data = $response->getData();
-
-        if (!$data instanceof Result) {
-            $data = (new Result())->setData($data);
+        if ($data instanceof Result) {
+            return format_response($data);
         }
-        return format_response($data);
+        // 检查是否需要统一输出
+        if ($this->checkGlobalResponse($request)) {
+            $data = (new Result())->setData($data);
+            $response = format_response($data);
+        }
+        return $response;
     }
 
     /**
      * 设置是否统一输出
      * @param Request $request
+     * @return bool
      * @date 2022/10/20 17:00
      * @author 原点 467490186@qq.com
      */
-    private function setGlobalResponse(Request $request): void
+    private function checkGlobalResponse(Request $request): bool
     {
-        // php 大于8.0 才支持注解
-        if (PHP_VERSION_ID < 80000 || !$request->globalResponse) {
-            return;
+        if ($request->globalResponse === false) {
+            return false;
         }
         try {
             // 解析控制器
             $class = app()->parseClass('controller', $request->controller());
             $action = $request->action();
+            // 判断类是否存在
+            if (!class_exists($class) || !method_exists($class, $action)) {
+                return true;
+            }
             $ref = new \ReflectionClass($class);
+            $attribute = $ref->getAttributes(NoGlobalResponse::class);
+            if ($attribute) {
+                return false;
+            }
+            $attribute = $ref->getMethod($action)->getAttributes(NoGlobalResponse::class);
+            if ($attribute) {
+                return false;
+            }
+        } catch (\Throwable) {
 
-            foreach ($ref->getAttributes(NoGlobalResponse::class) as $attribute) {
-                $attribute->newInstance();
-            }
-            // 类设置了取消统一输出，则不需要检查方法
-            if (!$request->globalResponse) {
-                return;
-            }
-
-            foreach ($ref->getMethod($action)->getAttributes(NoGlobalResponse::class) as $attribute) {
-                $attribute->newInstance();
-            }
-        } catch (\Throwable $e) {
-            Log::write($e);
         }
-
+        return true;
     }
 
     /**
@@ -100,10 +97,15 @@ class ResultMiddleware
         // 增加API请求响应日志
         $api_log = \request()->param('apiLog', false);
         if ($api_log === true) {
+            $header = \request()->header();
+            unset($header['cookie'], $header['accept'], $header['host'], $header['connection']);
             $log = [
                 'route' => \request()->url(true),
-                'param' => \request()->param(),
-                'header' => \request()->header(),
+                // get 参数
+                'GET' => \request()->get(),
+                // post参数
+                'POST' => \request()->post() ?: \request()->getInput(),
+                'header' => $header,
                 'response' => $response->getContent(),
                 'http_code' => $response->getCode(),
             ];

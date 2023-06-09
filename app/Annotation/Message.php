@@ -7,7 +7,7 @@
 // | Date: 2021/6/18
 // +----------------------------------------------------------------------
 
-namespace app\attribute;
+namespace app\Annotation;
 
 use Attribute;
 
@@ -19,7 +19,9 @@ use Attribute;
 #[Attribute(Attribute::TARGET_CLASS_CONSTANT)]
 class Message
 {
-    public array $data = [];
+
+    private string $message;
+    private int $httpCode;
 
     /**
      * Message constructor.
@@ -28,11 +30,22 @@ class Message
      */
     public function __construct(string $message, int $httpCode = 200)
     {
-        $this->data = [$message, $httpCode];
+        $this->message = $message;
+        $this->httpCode = $httpCode;
     }
 
     public function getDate(): array
     {
-        return $this->data;
+        return get_object_vars($this);
+    }
+
+    public function getMessage(): string
+    {
+        return $this->message;
+    }
+
+    public function getHttpCode(): int
+    {
+        return $this->httpCode;
     }
 }
