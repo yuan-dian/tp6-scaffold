@@ -14,7 +14,7 @@ thinkPHP 6.0 脚手架
 环境配置
 ===============
 
-+ php7.4+
++ php8.1+
 + 框架thinkphp 6.1+
 + mysql 5.6+
 + URL重写 （nginx示例：）
@@ -44,7 +44,7 @@ thinkPHP 6.0 脚手架
 ===============
 
 + 开启miss路由（强制路由，使用前先配置路由）
-+ 错误码信息需统一在 `app\constants` 目录处理
++ 错误码信息需统一在 `app\exception\code` 目录处理
 + 环境配置
     - 主配置文件  `项目根目录\.env` 应用配置
     - 环境配置 切换  `项目根目录\.env`  `ENV_CONFIG = xx`
@@ -110,6 +110,74 @@ thinkPHP 6.0 脚手架
       */
       AsyncEvent::register(callable $callback, array $args = []);
    ```
+
+架构说明
+===============
+
+```
+www WEB部署目录（或者子目录）
+├─app 应用目录
+│ ├─Annotation 注解目录
+│ ├─controller 控制器目录
+│ ├─event 事件目录
+│ ├─model 模型目录
+│ ├─exception 异常目录
+│ ├─middleware 中间件目录
+│ ├─service 服务目录（业务层）
+│ ├─manager 可复用逻辑层目录
+│ ├─utils 工具集目录
+│ │
+│ ├─ ... 更多自定义目录
+│ │
+│ ├─common.php 公共函数文件
+│ └─event.php 事件定义文件
+│
+├─config 配置目录
+│ ├─dev dev环境配置
+│ ├─prod prod环境配置
+│ ├─test test环境配置
+│ │
+│ ├─ ... 更多环境配置目录
+│ │
+│ ├─app.php 应用配置
+│ ├─cache.php 缓存配置
+│ ├─console.php 控制台配置
+│ ├─cookie.php Cookie配置
+│ ├─database.php 数据库配置
+│ ├─filesystem.php 文件磁盘配置
+│ ├─lang.php 多语言配置
+│ ├─log.php 日志配置
+│ ├─middleware.php 中间件配置
+│ ├─route.php URL和路由配置
+│ ├─session.php Session配置
+│ ├─trace.php Trace配置
+│ └─view.php 视图配置
+│
+├─view 视图目录
+├─route 路由定义目录
+│ ├─route.php 路由定义文件
+│ └─ ...   
+│
+├─public WEB目录（对外访问目录）
+│ ├─index.php 入口文件
+│ ├─router.php 快速测试文件
+│ └─.htaccess 用于apache的重写
+│
+├─extend 扩展类库目录
+├─runtime 应用的运行时目录（可写，可定制）
+├─vendor Composer类库目录
+├─.example.env 环境变量示例文件
+├─composer.json composer 定义文件
+├─LICENSE.txt 授权说明文件
+├─README.md README 文件
+├─think 命令行入口文件
+```
+
++ 调用流程 controller -> service -> manager -> model
++ Controller层：轻业务逻辑，参数校验，异常兜底。通常这种接口可以轻易更换接口类型，所以业务逻辑必须要轻，甚至不做具体逻辑
++ Service层：业务层，复用性较低，这里推荐每一个 controller 方法都得对应一个 service, 不要把业务编排放在 controller 中去做
++ Mannager层：可复用逻辑层，比如逻辑上的连表查询等，供Service层组合调用形成对应的业务逻辑
++ model层：数据库访问层。主要负责操作数据库的某张表
 
 备注
 ===============

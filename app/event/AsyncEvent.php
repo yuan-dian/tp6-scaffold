@@ -28,7 +28,7 @@ class AsyncEvent
      * @date 2020/6/17 13:51
      * @author 原点 467490186@qq.com
      */
-    public static function register(callable $callback, array $args = [])
+    public static function register(callable $callback, array $args = []): void
     {
         self::$hook_list[] = array('callback' => $callback, 'args' => $args);
     }
@@ -38,7 +38,7 @@ class AsyncEvent
      * @date 2020/6/17 15:33
      * @author 原点 467490186@qq.com
      */
-    public function handle()
+    public function handle(): void
     {
         if (empty(self::$hook_list)) {
             return;

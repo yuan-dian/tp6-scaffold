@@ -24,22 +24,12 @@ if (!function_exists('format_response')) {
         }
 
         $Accept = Request::header('accept') ?: 'application/json';
-        switch ($Accept) {
-            case 'application/xml':
-                $response = xml($data, $httpCode);
-                break;
-            case 'application/jsonp':
-                $response = jsonp($data, $httpCode);
-                break;
-            case 'application/html':
-                $response = response($data, $httpCode);
-                break;
-            default:
-                $response = json($data, $httpCode);
-                break;
-        }
-
-        return $response;
+        return match ($Accept) {
+            'application/xml' => xml($data, $httpCode),
+            'application/jsonp' => jsonp($data, $httpCode),
+            'application/html' => response($data, $httpCode),
+            default => json($data, $httpCode),
+        };
     }
 }
 
@@ -48,7 +38,10 @@ if (!function_exists('format_response')) {
  * @date 2021/7/21 18:32
  * @author 原点 467490186@qq.com
  */
-function no_global_response()
-{
-    request()->globalResponse = false;
+if (!function_exists('no_global_response')) {
+    function no_global_response(): void
+    {
+        request()->globalResponse = false;
+    }
 }
+
