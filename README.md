@@ -182,7 +182,7 @@ www WEB部署目录（或者子目录）
 备注
 ===============
 
-+ [完全开发手册](https://www.kancloud.cn/manual/thinkphp6_0/content)
++ [完全开发手册](https://doc.thinkphp.cn/v8_0/preface.html)
 
 ## 交流
 
