@@ -13,11 +13,11 @@ namespace app\exception\code;
 use app\Annotation\Message;
 use app\exception\trait\EnumTrait;
 
-enum CommonExceptionCode: int
+enum CommonExceptionCode: int implements ICode
 {
     use EnumTrait;
 
-    #[Message('请求成功', 200)]
+    #[Message('请求成功')]
     case SUCCESS = 0;
     #[Message('参数异常', 400)]
     case PARAM_ERROR = 1001;

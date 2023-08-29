@@ -18,6 +18,7 @@ class CommonException extends ServiceException
 
     public function __construct(CommonExceptionCode $code, string $message = '', int $httpCode = 0)
     {
-        parent::__construct($code, $message, $httpCode);
+        $this->httpCode = $httpCode ?: $this->httpCode;
+        parent::__construct($code, $message, $this->httpCode);
     }
 }

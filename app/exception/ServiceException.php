@@ -34,7 +34,7 @@ abstract class ServiceException extends \RuntimeException
         if (empty($httpCode)) {
             $httpCode = $codeEnum->getHttpCode();
         }
-        $this->httpCode = $httpCode;
+        $this->httpCode = $httpCode ?: $this->httpCode;
         $this->message = $message;
         $this->code = $codeEnum->value;
         parent::__construct($message, $codeEnum->value);

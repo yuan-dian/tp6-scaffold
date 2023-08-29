@@ -34,11 +34,6 @@ class Message
         $this->httpCode = $httpCode;
     }
 
-    public function getDate(): array
-    {
-        return get_object_vars($this);
-    }
-
     public function getMessage(): string
     {
         return $this->message;
