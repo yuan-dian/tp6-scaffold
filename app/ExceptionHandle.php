@@ -110,6 +110,7 @@ class ExceptionHandle extends Handle
 
     protected function isIgnoreReport(Throwable $exception): bool
     {
+        // 自定义异常且状态码为500时需要记录日志
         if ($exception instanceof ServiceException) {
             if ($exception->getHttpCode() == 500) {
                 return false;
