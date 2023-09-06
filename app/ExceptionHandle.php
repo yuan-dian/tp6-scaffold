@@ -39,7 +39,7 @@ class ExceptionHandle extends Handle
             // 收集异常数据
             $data = [
                 // uri
-                'uri' => Request::url(true),
+                'uri' => Request::baseUrl(true),
                 // 错误码
                 'code' => $this->getCode($exception),
                 // 错误信息
