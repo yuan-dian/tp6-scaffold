@@ -14,15 +14,39 @@ namespace app\response;
  */
 class Result
 {
+    /**
+     * 状态码
+     * @var int
+     */
     private int $code = 0;
 
+    /**
+     * 提示信息
+     * @var string
+     */
     private string $message = 'success';
 
+    /**
+     * 真实数据
+     * @var mixed|string
+     */
     private mixed $data = '';
+
+    /**
+     * http状态码
+     * @var int
+     */
     private int $httpCode = 200;
+
+    /**
+     * header
+     * @var array
+     */
+    private array $header = [];
 
 
     /**
+     * 获取状态码
      * @return int
      * @date 2021/6/16 14:01
      * @author 原点 467490186@qq.com
@@ -33,6 +57,7 @@ class Result
     }
 
     /**
+     * 设置状态码
      * @param int $code
      * @return $this
      * @date 2021/6/16 14:01
@@ -45,6 +70,7 @@ class Result
     }
 
     /**
+     * 获取提示信息
      * @return string
      * @date 2021/6/16 14:01
      * @author 原点 467490186@qq.com
@@ -55,6 +81,7 @@ class Result
     }
 
     /**
+     * 设置提示信息
      * @param string $message
      * @return $this
      * @date 2021/6/16 14:01
@@ -67,6 +94,7 @@ class Result
     }
 
     /**
+     * 获取数据
      * @return mixed
      * @date 2021/6/16 14:01
      * @author 原点 467490186@qq.com
@@ -77,6 +105,7 @@ class Result
     }
 
     /**
+     * 设置数据
      * @param $data
      * @return $this
      * @date 2021/6/16 14:01
@@ -89,6 +118,7 @@ class Result
     }
 
     /**
+     * 获取http状态码
      * @return int
      * @date 2021/6/16 14:01
      * @author 原点 467490186@qq.com
@@ -99,6 +129,7 @@ class Result
     }
 
     /**
+     * 设置http状态么
      * @param int $httpCode
      * @return $this
      * @date 2021/6/16 14:01
@@ -107,6 +138,30 @@ class Result
     public function setHttpCode(int $httpCode): Result
     {
         $this->httpCode = $httpCode;
+        return $this;
+    }
+
+    /**
+     * 获取header
+     * @return array
+     * @date 2023/9/7 10:52
+     * @author 原点 467490186@qq.com
+     */
+    public function getHeader(): array
+    {
+        return $this->header;
+    }
+
+    /**
+     * 设置header
+     * @param array $header
+     * @return $this
+     * @date 2023/9/7 10:52
+     * @author 原点 467490186@qq.com
+     */
+    public function setHeader(array $header): Result
+    {
+        $this->header = $header;
         return $this;
     }
 
@@ -130,7 +185,7 @@ class Result
     public function __toArray(): array
     {
         $data = [
-            'code' => $this->getCode(),
+            'code'    => $this->getCode(),
             'message' => $this->getMessage(),
         ];
         if ($this->getData()) {

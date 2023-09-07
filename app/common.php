@@ -15,20 +15,21 @@ if (!function_exists('format_response')) {
     function format_response(Result $result): Response
     {
         $data = [
-            'code' => $result->getCode(),
+            'code'    => $result->getCode(),
             'message' => $result->getMessage(),
         ];
         $httpCode = $result->getHttpCode();
         if ($result->getData()) {
             $data['data'] = $result->getData();
         }
+        $header = $result->getHeader();
 
         $Accept = Request::header('accept') ?: 'application/json';
         return match ($Accept) {
-            'application/xml' => xml($data, $httpCode),
-            'application/jsonp' => jsonp($data, $httpCode),
-            'application/html' => response($data, $httpCode),
-            default => json($data, $httpCode),
+            'application/xml' => xml($data, $httpCode, $header),
+            'application/jsonp' => jsonp($data, $httpCode, $header),
+            'application/html' => response($data, $httpCode, $header),
+            default => json($data, $httpCode, $header),
         };
     }
 }

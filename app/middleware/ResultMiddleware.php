@@ -81,7 +81,6 @@ class ResultMiddleware
                 return false;
             }
         } catch (\Throwable) {
-
         }
         return true;
     }
@@ -100,13 +99,13 @@ class ResultMiddleware
             $header = \request()->header();
             unset($header['cookie'], $header['accept'], $header['host'], $header['connection']);
             $log = [
-                'route' => \request()->url(true),
+                'route'     => \request()->baseUrl(true),
                 // get 参数
-                'GET' => \request()->get(),
+                'GET'       => \request()->get(),
                 // post参数
-                'POST' => \request()->post() ?: \request()->getInput(),
-                'header' => $header,
-                'response' => $response->getContent(),
+                'POST'      => \request()->post() ?: \request()->getInput(),
+                'header'    => $header,
+                'response'  => $response->getContent(),
                 'http_code' => $response->getCode(),
             ];
             Log::write($log);

@@ -39,25 +39,25 @@ class ExceptionHandle extends Handle
             // 收集异常数据
             $data = [
                 // uri
-                'uri' => Request::baseUrl(true),
+                'uri'     => Request::baseUrl(true),
                 // 错误码
-                'code' => $this->getCode($exception),
+                'code'    => $this->getCode($exception),
                 // 错误信息
                 'message' => $this->getMessage($exception),
                 // 错误文件
-                'file' => $exception->getFile(),
+                'file'    => $exception->getFile(),
                 // 错误行号
-                'line' => $exception->getLine(),
+                'line'    => $exception->getLine(),
                 // 错误堆栈
-                'trace' => explode('#5', $exception->getTraceAsString())[0],
+                'trace'   => explode('#5', $exception->getTraceAsString())[0],
                 // get 参数
-                'GET' => Request::get(),
+                'GET'     => Request::get(),
                 // post参数
-                'POST' => Request::post() ?: Request::getInput(),
+                'POST'    => Request::post() ?: Request::getInput(),
                 // header 头信息
-                'header' => $header,
+                'header'  => $header,
                 // 访问ip
-                'ip' => Request::ip(),
+                'ip'      => Request::ip(),
             ];
             try {
                 $this->app->log->record($data, 'error');
@@ -74,7 +74,7 @@ class ExceptionHandle extends Handle
      * @date 2021/6/16 14:20
      * @author 原点 467490186@qq.com
      */
-    public function render($request, Throwable $e): Response
+    public function render(\think\Request $request, Throwable $e): Response
     {
         $message = $this->getMessage($e);
         // 未知异常
