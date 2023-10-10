@@ -88,7 +88,7 @@ class ExceptionHandle extends Handle
         // 判断是否为自定义错误类型
         if ($e instanceof ServiceException) {
             $code = $this->getCode($e);
-            $this->httpCode = (int)$e->getHttpCode();
+            $this->httpCode = $e->getHttpCode();
         }
         // PDO异常
         if ($e instanceof PDOException) {

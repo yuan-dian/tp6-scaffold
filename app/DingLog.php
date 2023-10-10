@@ -22,11 +22,11 @@ class DingLog implements LogHandlerInterface
      * @var array
      */
     protected array $config = [
-        'enabled' => true,
-        'webhook' => '',
-        'at' => [],
-        'secret' => '',
-        'keyword' => '',
+        'enabled'     => true,
+        'webhook'     => '',
+        'at'          => [],
+        'secret'      => '',
+        'keyword'     => '',
         'system_name' => '',
     ];
 
@@ -51,10 +51,10 @@ class DingLog implements LogHandlerInterface
      */
     public function save(array $log = []): bool
     {
-        if ($this->config['enabled'] && !env('app_debug', 'false') && isset($log['error'][0])) {
+        if ($this->config['enabled'] && !env('app_debug', false) && isset($log['error'][0])) {
             $message = [
                 'system_name' => $this->config['system_name'],
-                'env' => env('env_config', 'prod'),
+                'env'         => env('env_config', 'prod'),
             ];
             $message = array_merge($message, $log['error'][0]);
             $msg = '';

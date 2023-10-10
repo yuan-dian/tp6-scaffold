@@ -24,7 +24,7 @@ if (!function_exists('format_response')) {
         }
         $header = $result->getHeader();
 
-        $Accept = Request::header('accept') ?: 'application/json';
+        $Accept = Request::header('accept', 'application/json');
         return match ($Accept) {
             'application/xml' => xml($data, $httpCode, $header),
             'application/jsonp' => jsonp($data, $httpCode, $header),
