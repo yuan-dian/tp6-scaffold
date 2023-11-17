@@ -38,17 +38,27 @@ class ResultMiddleware
          */
         $response = $next($request);
 
+        // 不需要统一输出的，直接返回响应体
+        if ($this->checkGlobalResponse($request) === false) {
+            return $response;
+        }
+
         // 获取响应数据
-        $data = $response->getData();
-        if ($data instanceof Result) {
-            return format_response($data);
+        $result = $response->getData();
+        if (!$result instanceof Result) {
+            $result = (new Result())->setData($result);
         }
-        // 检查是否需要统一输出
-        if ($this->checkGlobalResponse($request)) {
-            $data = (new Result())->setData($data);
-            $response = format_response($data);
+        // 组装统一输出结构数据
+        $res = [
+            'code'    => $result->getCode(),
+            'message' => $result->getMessage(),
+        ];
+        if ($result->getData()) {
+            $res['data'] = $result->getData();
         }
-        return $response;
+        $httpCode = $result->getHttpCode();
+        $header = $result->getHeader();
+        return json($res, $httpCode, $header);
     }
 
     /**

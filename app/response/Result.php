@@ -24,13 +24,49 @@ class Result
      * 提示信息
      * @var string
      */
-    private string $message = 'success';
+    private string $message = '请求成功';
 
     /**
      * 真实数据
-     * @var mixed|string
+     * @var mixed
      */
     private mixed $data = '';
+
+    /**
+     * 分页数据
+     * @var array
+     */
+    private array $pageInfo = [];
+
+    /**
+     * 获取分页信息
+     * @return array
+     * @date 2023/11/17 15:45
+     * @author 原点 467490186@qq.com
+     */
+    public function getPageInfo(): array
+    {
+        return $this->pageInfo;
+    }
+
+    /**
+     * 设置分页信息
+     * @param int $pageNumber
+     * @param int $total
+     * @param int $pageSize
+     * @return $this
+     * @date 2023/11/17 15:45
+     * @author 原点 467490186@qq.com
+     */
+    public function setPageInfo(int $pageNumber, int $total, int $pageSize = 20): Result
+    {
+        $this->pageInfo = [
+            'pageNumber' => $pageNumber,
+            'pageSize'   => $pageSize,
+            'total'      => $total,
+        ];
+        return $this;
+    }
 
     /**
      * http状态码
