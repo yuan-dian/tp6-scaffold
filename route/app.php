@@ -27,5 +27,4 @@ Route::miss(function () {
 /*** 版本控制器路由 */
 Route::group(':version', function () {
     Route::get('index', ':version.Index/index')->append(['apiLog' => true]);
-})
-    ->middleware('app\middleware\CheckSign');
+});
