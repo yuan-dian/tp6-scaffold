@@ -7,7 +7,7 @@
     "thinkphp",
     "ORM"
   ],
-  "homepage": "http://thinkphp.cn/",
+  "homepage": "https://thinkphp.cn/",
   "license": "Apache-2.0",
   "authors": [
     {
@@ -21,8 +21,8 @@
   ],
   "require": {
     "php": ">=8.1",
-    "topthink/framework": "^8.0",
-    "topthink/think-orm": "^3.0",
+    "topthink/framework": "^8.1",
+    "topthink/think-orm": "^4.0",
     "bingher/ding-bot": "^1.4",
     "ext-mbstring": "*"
   },

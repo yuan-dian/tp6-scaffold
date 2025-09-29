@@ -2,7 +2,7 @@
 // +----------------------------------------------------------------------
 // | 
 // +----------------------------------------------------------------------
-// | @copyright (c) http://www.auntec.cn All rights reserved.
+// | @copyright (c) 原点 All rights reserved.
 // +----------------------------------------------------------------------
 // | Author: 原点 <467490186@qq.com>
 // +----------------------------------------------------------------------
@@ -35,5 +35,8 @@ enum CommonExceptionCode: int implements ICode
     case MYSQL_ROLLBACK = 4003;
     #[Message('数据库保存失败', 404)]
     case MYSQL_SAVE_ERROR = 4004;
+
+    #[Message('第三方接口请求失败', 500)]
+    case THIRD_REQUEST_FAILED = 4005;
 
 }

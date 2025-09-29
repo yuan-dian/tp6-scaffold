@@ -13,7 +13,8 @@
 namespace think;
 
 require __DIR__ . '/../vendor/autoload.php';
-
+// 删除X-Powered-By头
+header_remove('X-Powered-By');
 // 执行HTTP应用并响应
 $http = (new App())->http;
 

@@ -59,7 +59,7 @@ thinkPHP 6.0 脚手架
 
  ```
     // 控制器代码
-    public function index()
+    public function index(): string
      {
          return 'Welcome to v1 *****';
      }
