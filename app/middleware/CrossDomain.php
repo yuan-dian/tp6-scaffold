@@ -29,7 +29,7 @@ class CrossDomain
     public function handle(Request $request, \Closure $next): Response
     {
         // 判断是否是跨域请求
-        if (!$this->isCorsRequest($request)) {
+        if ($this->isCorsRequest($request)) {
             return $next($request);
         }
         $header = [
@@ -64,9 +64,10 @@ class CrossDomain
         }
 
         $parse_url = parse_url($origin);
+        $scheme = $parse_url['scheme'] ?? 'http';
+        $host = $parse_url['host'] ?? '';
+        $port = $parse_url['port'] ?? 80;
 
-        return $parse_url['scheme'] == $request->scheme()
-            && $parse_url['host'] == $request->host()
-            && $parse_url['port'] == $request->port();
+        return $scheme === $request->scheme() && $host === $request->host() && $port === $request->port();
     }
 }
